@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FanVerse - متجر المنتجات</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+        .active-filter {
+            background-color: #DC2626 !important; /* red-600 */
+            color: white !important;
+            border-color: #DC2626 !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+
+    <!-- Header -->
+    <header class="bg-white dark:bg-gray-800 shadow-lg sticky top-0 z-20">
+        <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-3">
+                <!-- تم استبدال الصورة بـ SVG لضمان الظهور -->
+                <svg class="h-12 w-12 sm:h-14 sm:w-14" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="50" cy="50" r="48" fill="white"/>
+                  <circle cx="50" cy="50" r="48" fill="none" stroke="#DC2626" stroke-width="3"/>
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="#DC2626" stroke-width="1"/>
+                  <text x="50" y="55" font-family="Cairo, sans-serif" font-size="20" font-weight="800" fill="black" text-anchor="middle">FANVERSE</text>
+                  <path d="M 35 25 L 50 25 L 50 40 L 45 40 L 45 30 L 35 30 Z" fill="#DC2626"/>
+                  <path d="M 50 25 L 65 25 L 55 40 Z" fill="#DC2626"/>
+                  <path d="M 42 60 L 58 60 L 50 75 Z" fill="#DC2626"/>
+                </svg>
+                <span class="text-2xl sm:text-3xl font-extrabold text-gray-800 dark:text-white tracking-tight">FanVerse</span>
+            </a>
+            <nav>
+                <!-- سيتم إضافة أزرار الأقسام هنا بواسطة الجافاسكريبت -->
+                <div id="category-filters" class="flex gap-2 flex-wrap justify-center"></div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 sm:px-6 py-10">
+        
+        <!-- Products Section -->
+        <section id="products">
+            <h2 class="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">منتجاتنا</h2>
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <!-- سيتم عرض كروت المنتجات هنا -->
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="about" class="mt-20 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl">
+            <h2 class="text-3xl font-bold text-center mb-6 text-red-600 dark:text-red-500"> FanVerse</h2>
+            <p class="text-center max-w-3xl mx-auto mb-8 text-gray-600 dark:text-gray-300">
+                FanVerse مش مجرد براند، دي مساحة تعبر بيها عن نفسك.
+من هدوم شيك لحد أكسسوار يومي، كل قطعة معمولة عشان تديك ستايل يخصك أنت.
+            </p>
+            
+            <div class="grid md:grid-cols-3 gap-8 text-center max-w-5xl mx-auto">
+                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border-t-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-3">الإبداع</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400"> كل تصميم معمول بروح جديدة عشان يخلي ستايلك مختلف.</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border-t-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-3">الجودة</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">خامات قوية ومعايير عالية تديك راحة وعُمر أطول.</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border-t-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-3">التنوع</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">مجموعتنا واسعة، تلاقي فيها اللي يعبر عنك أيًّا كان ذوقك.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 dark:bg-black mt-16 py-6">
+        <div class="container mx-auto px-6 text-center text-gray-400 dark:text-gray-500">
+            <p>&copy; 2025 FanVerse. كل الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 hidden items-center justify-center z-50 p-4 transition-opacity duration-300">
+        <div class="relative bg-white dark:bg-gray-800 p-4 rounded-lg max-w-3xl max-h-full shadow-2xl">
+            <button id="closeModal" class="absolute -top-3 -right-3 bg-red-600 text-white rounded-full h-8 w-8 flex items-center justify-center text-xl font-bold z-10 leading-none">&times;</button>
+            <img id="modalImage" src="" alt="عرض مكبر للمنتج" class="max-w-full max-h-[85vh] object-contain rounded-md">
+        </div>
+    </div>
+
+
+    <script>
+        // --- ابدأ التعديل من هنا لإضافة منتجاتك ---
+
+        const products = [
+            // منتجات قسم هودي
+            {
+                name: '  هوديspace 1   ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/2.png',
+                price: '650 L.E'
+            },
+ {
+                name: '  هوديspace2  ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/23.png',
+                price: '650 L.E'
+            },
+
+            {
+                name: '  هودي RABBIT   ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/1.png',
+                price: '650 L.E'
+            },
+            {
+                name: '  هودي cyborg samurai   ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/3.png',
+                price: '650 L.E'
+            },
+{
+                name: '  هودي RAVEN  ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/8.png',
+                price: '650 L.E'
+            },
+
+                        {
+                name: '  هودي YOU   ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/5.png',
+                price: '650 L.E'
+            },
+    {
+                name: '  هودي OUT OF BOX  ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/6.png',
+                price: '650 L.E'
+            },
+ {
+                name: '  هودي RAVEN  ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/7.png',
+                price: '650 L.E'
+            },
+ {
+                name: '  هودي  samurai  ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/9.png',
+                price: '650 L.E'
+            },
+ {
+                name: '  هودي  ANGEL ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/10.png',
+                price: '650 L.E'
+            },
+  {
+                name: '  هودي Yuji Itadori  ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/4.png',
+                price: '650 L.E'
+            },
+
+{
+                name: '  هودي  breaking bad ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/11.png',
+                price: '650 L.E'
+            },
+{
+                name: '  هودي  ZORO ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/12.png',
+                price: '650 L.E'
+            },
+{
+                name: '  هودي  ZORO ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/13.png',
+                price: '650 L.E'
+            },
+            {
+                name: 'هودي ZORO',
+                category: 'هودي',
+                imageUrl: 'images/17.png',
+                price: '650 L.E'
+            },
+ {
+                name: 'هودي LOFY',
+                category: 'هودي',
+                imageUrl: 'images/16.png',
+                price: '650 L.E'
+            },
+
+ {
+                name: '  هودي RAVEN  ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/14.png',
+                price: '650 L.E'
+            },
+
+
+ {
+                name: '  هودي  samurai  ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/15.png',
+                price: '650 L.E'
+            },
+
+ {
+                name: '  هودي  attack on titan  ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/18.png',
+                price: '650 L.E'
+            },
+
+ {
+                name: '  هودي  messi ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/19.png',
+                price: '650 L.E'
+            },
+
+{
+                name: '  هودي jon snow ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/20.png',
+                price: '650 L.E'
+            },
+ {
+                name: '  هودي  john wick ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/21.png',
+                price: '650 L.E'
+            },
+
+
+               {
+                name: '  هودي  tomas chilbi ',
+                category: 'هودي',
+                // هام: استبدل الرابط أدناه برابط الصورة الخاصة بمنتجك
+                imageUrl: 'images/22.png',
+                price: '650 L.E'
+            },
+
+            
+
+            // منتجات قسم جاكيت
+            {
+                name: 'جاكيت عصري',
+                category: 'جاكيت',
+                imageUrl: 'https://placehold.co/600x600/4a5568/ffffff?text=Jacket',
+                price: '750 L.E'
+            },
+             // منتجات قسم توتي باجز
+            {
+                name: 'توتي باج أسود',
+                category: 'توتي باجز',
+                imageUrl: 'https://placehold.co/600x600/2d3748/ffffff?text=Tote+Bag',
+                price: '250L.E'
+            },
+            {
+                name: 'توتي باج بطبعة خاصة',
+                category: 'توتي باجز',
+                imageUrl: 'https://placehold.co/600x600/e53e3e/ffffff?text=Tote+Bag',
+                price: '250 L.E'
+            },
+            // منتجات قسم مج
+            {
+                name: 'مج JOKER',
+                category: 'مج',
+                imageUrl: 'images/M (1).png',
+                price: '130 L.E'
+            },
+            {
+                name: 'مج JOHN WICK',
+                category: 'مج',
+                imageUrl: 'images/M (2).png',
+                price: '130 L.E'
+            },
+ {
+                name: 'مج FALASTIN',
+                category: 'مج',
+                imageUrl: 'images/M (8).png',
+                price: '130 L.E'
+            },
+ {
+                name: 'مج ZORO',
+                category: 'مج',
+                imageUrl: 'images/M (6).png',
+                price: '130 L.E'
+            },
+
+ {
+                name: 'مج DUCK',
+                category: 'مج',
+                imageUrl: 'images/M (7).png',
+                price: '130 L.E'
+            },
+
+ {
+                name: 'مج ANGEL',
+                category: 'مج',
+                imageUrl: 'images/M (9).png',
+                price: '130 L.E'
+            },
+
+ {
+                name: 'مج HARYY POTTER',
+                category: 'مج',
+                imageUrl: 'images/M (4).png',
+                price: '130 L.E'
+            },
+
+ {
+                name: 'مج KRATOS',
+                category: 'مج',
+                imageUrl: 'images/M (10).png',
+                price: '130 L.E'
+            },
+
+
+            // **لإضافة منتج جديد، انسخ القالب التالي وألصقه هنا**
+            /*
+            {
+                name: 'هودي بتصميم شخصية زورو ',
+                category: 'القسم (هودي، جاكيت، توتي باجز، مج)',
+                imageUrl: 'رابط صورة المنتج الجديد',
+                price: '650 L.E'
+            },
+            */
+        ];
+
+        // --- انتهى قسم تعديل المنتجات ---
+        
+        // --- وصف المنتجات حسب القسم ---
+        const categoryDescriptions = {
+            'هودي': 'هودي قطن 100% بطباعة DTF عالية الجودة يعبر عن هويتك.',
+            'مج': 'مج طباعة سبليمشن يعبر عن شغفك.',
+            'توتي باجز': 'توتي باجز بشكل عصري خامة دك بيور وطباعة dtf لضمان الجودة.',
+            'جاكيت': 'جاكيت عصري تقدر تطلب اكثر من رسمة للظهر لمظهر مبهر جديد لكل يوم جديد.'
+        };
+
+
+        const productGrid = document.getElementById('product-grid');
+        const categoryFiltersContainer = document.getElementById('category-filters');
+        const imageModal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const closeModal = document.getElementById('closeModal');
+        let activeFilter = 'الكل';
+
+        // دالة لعرض المنتجات في الصفحة
+        function renderProducts(filter = 'الكل') {
+            productGrid.innerHTML = '';
+            const filteredProducts = filter === 'الكل' 
+                ? products 
+                : products.filter(p => p.category === filter);
+
+            if (filteredProducts.length === 0) {
+                productGrid.innerHTML = `<p class="col-span-full text-center text-gray-500 py-10">لا توجد منتجات في هذا القسم حاليًا.</p>`;
+                return;
+            }
+
+            filteredProducts.forEach(product => {
+                const description = categoryDescriptions[product.category] || '';
+                
+                const card = `
+                <div class="product-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer flex flex-col" data-image-url="${product.imageUrl}">
+                    <div class="w-full h-64 bg-gray-200 dark:bg-gray-700 pointer-events-none">
+                         <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x600/cccccc/ffffff?text=Image+Not+Found'">
+                    </div>
+                    <div class="p-5 text-center flex-grow flex flex-col">
+                        <div class="flex-grow">
+                            <h3 class="text-xl font-bold mb-2 truncate">${product.name}</h3>
+                            <p class="text-sm text-red-600 dark:text-red-500 mb-2 font-semibold">${product.category}</p>
+                            <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed min-h-[60px]">${description}</p>
+                        </div>
+                        <div class="text-2xl font-bold text-gray-900 dark:text-white mt-4">${product.price}</div>
+                    </div>
+                </div>
+                `;
+                productGrid.innerHTML += card;
+            });
+            
+            // إضافة مستمعي النقر للبطاقات الجديدة
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    modalImage.src = card.dataset.imageUrl;
+                    imageModal.classList.remove('hidden');
+                    imageModal.classList.add('flex');
+                });
+            });
+        }
+        
+        // دالة لإنشاء أزرار الأقسام
+        function renderCategoryFilters() {
+            const categories = ['الكل', ...new Set(products.map(p => p.category))];
+            categoryFiltersContainer.innerHTML = '';
+            categories.forEach(category => {
+                const button = document.createElement('button');
+                button.textContent = category;
+                button.className = `px-3 py-2 rounded-md font-semibold transition-colors duration-300 text-sm md:text-base border-2 border-transparent ${
+                    activeFilter === category 
+                    ? 'active-filter' 
+                    : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'
+                }`;
+                
+                button.addEventListener('click', () => {
+                    activeFilter = category;
+                    renderProducts(activeFilter);
+                    updateActiveButton();
+                });
+                categoryFiltersContainer.appendChild(button);
+            });
+        }
+        
+        // دالة لتحديث الزر النشط
+        function updateActiveButton() {
+            const buttons = categoryFiltersContainer.querySelectorAll('button');
+            buttons.forEach(button => {
+                if(button.textContent === activeFilter) {
+                    button.classList.add('active-filter');
+                    button.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-200', 'hover:bg-gray-300', 'dark:hover:bg-gray-600');
+                } else {
+                     button.classList.remove('active-filter');
+                     button.className = 'px-3 py-2 rounded-md font-semibold transition-colors duration-300 text-sm md:text-base border-2 border-transparent bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600';
+                }
+            });
+        }
+        
+        // وظائف إغلاق النافذة المنبثقة
+        const hideModal = () => {
+            imageModal.classList.add('hidden');
+            imageModal.classList.remove('flex');
+        };
+
+        closeModal.addEventListener('click', hideModal);
+        imageModal.addEventListener('click', (e) => {
+            // أغلق النافذة فقط عند النقر على الخلفية وليس على الصورة نفسها
+            if (e.target === imageModal) {
+                hideModal();
+            }
+        });
+
+
+        // عرض كل شيء عند تحميل الصفحة
+        window.onload = () => {
+            renderCategoryFilters();
+            renderProducts();
+        };
+    </script>
+</body>
+</html>
+
