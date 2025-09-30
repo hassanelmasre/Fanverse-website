@@ -1,0 +1,964 @@
+<!-- هذا الملف يمثل بطاقة عرض الهودي مع تطبيق هيكلية المجلدات الجديدة: IMGES/BLACK و IMGES/WHITE -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FanVerse - متجر المنتجات</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+        .active-filter {
+            background-color: #DC2626 !important; /* red-600 */
+            color: white !important;
+            border-color: #DC2626 !important;
+        }
+        /* Styling for the slideshow */
+        .slide {
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            display: none;
+            transition: opacity 0.5s ease-in-out;
+            position: relative;
+        }
+        .slide.active {
+            display: block;
+        }
+        /* Custom styling for color dots */
+        .color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #ccc;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .color-dot.active {
+            transform: scale(1.2);
+            border-color: #DC2626; /* Red border for active dot */
+        }
+        /* Modal navigation arrows styling */
+        .modal-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(220, 38, 38, 0.7); /* red-600 with transparency */
+            color: white;
+            font-size: 2rem;
+            width: 40px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 20;
+            user-select: none;
+            transition: background-color 0.2s;
+        }
+        .modal-arrow:hover {
+            background-color: rgba(220, 38, 38, 1);
+        }
+        #prevImage {
+            right: 0; /* Arrow on the right in RTL (moves to PREVIOUS CARD) */
+            border-top-right-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+        }
+        #nextImage {
+            left: 0; /* Arrow on the left in RTL (moves to NEXT CARD) */
+            border-top-left-radius: 0.5rem;
+            border-bottom-left-radius: 0.5rem;
+        }
+        /* Ensure image container is relative for arrows */
+        #imageModalContent {
+            position: relative;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+
+    <!-- Header -->
+    <header class="bg-white dark:bg-gray-800 shadow-lg sticky top-0 z-20">
+        <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-3">
+                <!-- SVG Logo -->
+                <svg class="h-12 w-12 sm:h-14 sm:w-14" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="48" fill="white"/>
+                    <circle cx="50" cy="50" r="48" fill="none" stroke="#DC2626" stroke-width="3"/>
+                    <circle cx="50" cy="50" r="42" fill="none" stroke="#DC2626" stroke-width="1"/>
+                    <text x="50" y="55" font-family="Cairo, sans-serif" font-size="20" font-weight="800" fill="black" text-anchor="middle">FANVERSE</text>
+                    <path d="M 35 25 L 50 25 L 50 40 L 45 40 L 45 30 L 35 30 Z" fill="#DC2626"/>
+                    <path d="M 50 25 L 65 25 L 55 40 Z" fill="#DC2626"/>
+                    <path d="M 42 60 L 58 60 L 50 75 Z" fill="#DC2626"/>
+                </svg>
+                <span class="text-2xl sm:text-3xl font-extrabold text-gray-800 dark:text-white tracking-tight">FanVerse</span>
+            </a>
+            <nav>
+                <!-- Category filter buttons will be rendered here by JS -->
+                <div id="category-filters" class="flex gap-2 flex-wrap justify-center"></div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 sm:px-6 py-10">
+
+        <!-- Slideshow (Hero Section) -->
+        <section id="hero-slideshow" class="mb-12 rounded-xl overflow-hidden shadow-2xl relative w-full h-64 md:h-96 bg-white dark:bg-gray-700" data-autoplay-interval="4000">
+            <div id="slides-container" class="h-full relative overflow-hidden">
+                <!-- Slides will be injected here by JS -->
+            </div>
+            <!-- Slide Dots Indicator -->
+            <div id="slideshow-dots" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                <!-- Dots will be injected here by JS -->
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products">
+            <h2 class="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">منتجاتنا</h2>
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <!-- Product cards will be displayed here -->
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="about" class="mt-20 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl">
+            <h2 class="text-3xl font-bold text-center mb-6 text-red-600 dark:text-red-500"> FanVerse</h2>
+            <p class="text-center max-w-3xl mx-auto mb-8 text-gray-600 dark:text-gray-300">
+                FanVerse مش مجرد براند، دي مساحة تعبر بيها عن نفسك.
+من هدوم شيك لحد أكسسوار يومي، كل قطعة معمولة عشان تديك ستايل يخصك أنت.
+            </p>
+            
+            <div class="grid md:grid-cols-3 gap-8 text-center max-w-5xl mx-auto">
+                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border-t-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-3">الإبداع</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400"> كل تصميم معمول بروح جديدة عشان يخلي ستايلك مختلف.</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border-t-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-3">الجودة</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">خامات قوية ومعايير عالية تديك راحة وعُمر أطول.</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border-t-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-3">التنوع</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">مجموعتنا واسعة، تلاقي فيها اللي يعبر عنك أيًّا كان ذوقك.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 dark:bg-black mt-16 py-6">
+        <div class="container mx-auto px-6 text-center text-gray-400 dark:text-gray-500">
+            <p>&copy; 2025 FanVerse. كل الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 hidden items-center justify-center z-50 p-4 transition-opacity duration-300">
+        <div id="imageModalContent" class="relative bg-white dark:bg-gray-800 p-4 rounded-lg max-w-3xl max-h-full shadow-2xl">
+            <button id="closeModal" class="absolute -top-3 -right-3 bg-red-600 text-white rounded-full h-8 w-8 flex items-center justify-center text-xl font-bold z-10 leading-none">&times;</button>
+            <img id="modalImage" src="" alt="عرض مكبر للمنتج" class="max-w-full max-h-[85vh] object-contain rounded-md">
+
+            <!-- Modal Navigation Arrows -->
+            <div id="prevImage" class="modal-arrow" style="border-radius: 0.5rem 0 0 0.5rem;">&#x276F;</div> <!-- Right arrow (Prev in RTL layout) -->
+            <div id="nextImage" class="modal-arrow" style="border-radius: 0 0.5rem 0.5rem 0;">&#x276E;</div> <!-- Left arrow (Next in RTL layout) -->
+            
+            <!-- Metadata (stores info about the current image) -->
+            <div id="modalMetadata" data-is-two-color="false" data-card-index="-1" data-current-color="black" class="hidden"></div>
+        </div>
+    </div>
+
+
+    <script>
+        // Function to generate a placeholder image URL
+        const generatePlaceholder = (text, color = 'black', width = 600, height = 600) => {
+            const bgColor = color === 'white' ? 'FFFFFF' : '000000';
+            const textColor = color === 'white' ? '000000' : 'FFFFFF';
+            // Placeholder URL, using the file path as the text if the file is missing
+            return `https://placehold.co/${width}x${height}/${bgColor}/${textColor}?text=MISSING+IMAGE%3A+${encodeURIComponent(text.trim())}`;
+        }
+
+        // --- Slideshow Configuration ---
+        // تم تحديث المسارات لتبدأ بـ IMGES
+        const SLIDESHOW_IMAGES = [
+            'IMGES/ad_1.png', 
+            'IMGES/ad_2.png', 
+            'IMGES/ad_3.png', 
+            'IMGES/ad_4.png', 
+            'IMGES/ad_5.png', 
+        ];
+        
+        // --- Product Data ---
+        
+        // **مصفوفة المنتجات (60 هودي + 19 مج + 2 قريباً = 81 بطاقة):**
+        const products = [
+            // ===========================================
+            // 1. بطاقات الهودي (48 بطاقة)
+            // ===========================================
+            {
+                name: 'هودي space 1', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                blackImageUrl: 'IMGES/BLACK/2.png',
+                whiteImageUrl: 'IMGES/WHITE/2.png', 
+            },
+            {
+                name: 'هودي space 2', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                blackImageUrl: 'IMGES/BLACK/23.png',
+                whiteImageUrl: 'IMGES/WHITE/23.png', 
+            },
+            {
+                name: 'هودي RABBIT', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                blackImageUrl: 'IMGES/BLACK/1.png',
+                whiteImageUrl: 'IMGES/WHITE/1.png',
+            },
+            {
+                name: 'هودي GOOD VIBES', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                blackImageUrl: 'IMGES/BLACK/36.png',
+                whiteImageUrl: 'IMGES/WHITE/36.png',
+            },
+
+            {
+                name: 'هودي cyborg samurai', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                blackImageUrl: 'IMGES/BLACK/3.png',
+                whiteImageUrl: 'IMGES/WHITE/3.png',
+            },
+            {
+                name: 'هودي RAVEN', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                blackImageUrl: 'IMGES/BLACK/8.png',
+                whiteImageUrl: 'IMGES/WHITE/8.png',
+            },
+            {
+                name: 'هودي YOU', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                blackImageUrl: 'IMGES/BLACK/5.png',
+                whiteImageUrl: 'IMGES/WHITE/5.png',
+            },
+            {
+                name: 'هودي OUT OF BOX', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                blackImageUrl: 'IMGES/BLACK/6.png',
+                whiteImageUrl: 'IMGES/WHITE/6.png',
+            },
+            {
+                name: 'هودي Black Clover', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                blackImageUrl: 'IMGES/BLACK/7.png',
+                whiteImageUrl: 'IMGES/WHITE/7.png',
+            },
+            {
+                name: 'هودي samurai', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                blackImageUrl: 'IMGES/BLACK/9.png',
+                whiteImageUrl: 'IMGES/WHITE/9.png',
+            },
+            {
+                name: 'هودي ANGEL', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                blackImageUrl: 'IMGES/BLACK/10.png',
+                whiteImageUrl: 'IMGES/WHITE/10.png',
+            },
+            {
+                name: 'هودي Yuji Itadori', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                blackImageUrl: 'IMGES/BLACK/4.png',
+                whiteImageUrl: 'IMGES/WHITE/4.png',
+            },
+            {
+                name: 'هودي breaking bad', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                blackImageUrl: 'IMGES/BLACK/11.png',
+                whiteImageUrl: 'IMGES/WHITE/11.png',
+            },
+            {
+                name: 'هودي ZORO', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                blackImageUrl: 'IMGES/BLACK/12.png',
+                whiteImageUrl: 'IMGES/WHITE/12.png',
+            },
+            
+            {
+                name: 'هودي Pharaon', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                blackImageUrl: 'IMGES/BLACK/31.png',
+                whiteImageUrl: 'IMGES/WHITE/24.png',
+            },
+
+            {
+                name: 'هودي LOFY', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                blackImageUrl: 'IMGES/BLACK/16.png',
+                whiteImageUrl: 'IMGES/WHITE/16.png',
+            },
+            
+            // 2. البطاقات الإضافية للهودي (32 بطاقة)
+            { name: 'هودي تصميم رقم 17', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_17.png', whiteImageUrl: 'IMGES/WHITE/hoodie_17.png' },
+            { name: 'هودي تصميم رقم 18', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_18.png', whiteImageUrl: 'IMGES/WHITE/hoodie_18.png' },
+            { name: 'هودي تصميم رقم 19', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_19.png', whiteImageUrl: 'IMGES/WHITE/hoodie_19.png' },
+            { name: 'هودي تصميم رقم 20', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_20.png', whiteImageUrl: 'IMGES/WHITE/hoodie_20.png' },
+            { name: 'هودي تصميم رقم 21', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_21.png', whiteImageUrl: 'IMGES/WHITE/hoodie_21.png' },
+            { name: 'هودي تصميم رقم 22', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_22.png', whiteImageUrl: 'IMGES/WHITE/hoodie_22.png' },
+            { name: 'هودي تصميم رقم 23', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_23.png', whiteImageUrl: 'IMGES/WHITE/hoodie_23.png' },
+            { name: 'هودي تصميم رقم 24', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_24.png', whiteImageUrl: 'IMGES/WHITE/hoodie_24.png' },
+            { name: 'هودي تصميم رقم 25', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_25.png', whiteImageUrl: 'IMGES/WHITE/hoodie_25.png' },
+            { name: 'هودي تصميم رقم 26', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_26.png', whiteImageUrl: 'IMGES/WHITE/hoodie_26.png' },
+            { name: 'هودي تصميم رقم 27', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_27.png', whiteImageUrl: 'IMGES/WHITE/hoodie_27.png' },
+            { name: 'هودي تصميم رقم 28', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_28.png', whiteImageUrl: 'IMGES/WHITE/hoodie_28.png' },
+            { name: 'هودي تصميم رقم 29', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_29.png', whiteImageUrl: 'IMGES/WHITE/hoodie_29.png' },
+            { name: 'هودي تصميم رقم 30', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_30.png', whiteImageUrl: 'IMGES/WHITE/hoodie_30.png' },
+            { name: 'هودي تصميم رقم 31', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_31.png', whiteImageUrl: 'IMGES/WHITE/hoodie_31.png' },
+            { name: 'هودي تصميم رقم 32', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_32.png', whiteImageUrl: 'IMGES/WHITE/hoodie_32.png' },
+            { name: 'هودي تصميم رقم 33', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_33.png', whiteImageUrl: 'IMGES/WHITE/hoodie_33.png' },
+            { name: 'هودي تصميم رقم 34', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_34.png', whiteImageUrl: 'IMGES/WHITE/hoodie_34.png' },
+            { name: 'هودي تصميم رقم 35', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_35.png', whiteImageUrl: 'IMGES/WHITE/hoodie_35.png' },
+            { name: 'هودي تصميم رقم 36', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_36.png', whiteImageUrl: 'IMGES/WHITE/hoodie_36.png' },
+            { name: 'هودي تصميم رقم 37', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_37.png', whiteImageUrl: 'IMGES/WHITE/hoodie_37.png' },
+            { name: 'هودي تصميم رقم 38', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_38.png', whiteImageUrl: 'IMGES/WHITE/hoodie_38.png' },
+            { name: 'هودي تصميم رقم 39', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_39.png', whiteImageUrl: 'IMGES/WHITE/hoodie_39.png' },
+            { name: 'هودي تصميم رقم 40', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_40.png', whiteImageUrl: 'IMGES/WHITE/hoodie_40.png' },
+            { name: 'هودي تصميم رقم 41', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_41.png', whiteImageUrl: 'IMGES/WHITE/hoodie_41.png' },
+            { name: 'هودي تصميم رقم 42', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_42.png', whiteImageUrl: 'IMGES/WHITE/hoodie_42.png' },
+            { name: 'هودي تصميم رقم 43', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_43.png', whiteImageUrl: 'IMGES/WHITE/hoodie_43.png' },
+            { name: 'هودي تصميم رقم 44', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_44.png', whiteImageUrl: 'IMGES/WHITE/hoodie_44.png' },
+            { name: 'هودي تصميم رقم 45', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_45.png', whiteImageUrl: 'IMGES/WHITE/hoodie_45.png' },
+            { name: 'هودي تصميم رقم 46', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_46.png', whiteImageUrl: 'IMGES/WHITE/hoodie_46.png' },
+            { name: 'هودي تصميم رقم 47', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_47.png', whiteImageUrl: 'IMGES/WHITE/hoodie_47.png' },
+            { name: 'هودي تصميم رقم 48', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/hoodie_48.png', whiteImageUrl: 'IMGES/WHITE/hoodie_48.png' },
+
+            // ===========================================
+            // 3. بطاقات المجات (19 بطاقة)
+            // ===========================================
+            
+            // المجات المحددة مسبقاً (8)
+            { name: 'مج JOKER', category: 'مج', imageUrl: 'IMGES/M (1).png', price: '130 L.E' },
+            { name: 'مج JOHN WICK', category: 'مج', imageUrl: 'IMGES/M (2).png', price: '130 L.E' },
+            { name: 'مج FALASTIN', category: 'مج', imageUrl: 'IMGES/M (8).png', price: '130 L.E' },
+            { name: 'مج ZORO', category: 'مج', imageUrl: 'IMGES/M (6).png', price: '130 L.E' },
+            { name: 'مج DUCK', category: 'مج', imageUrl: 'IMGES/M (7).png', price: '130 L.E' },
+            { name: 'مج ANGEL', category: 'مج', imageUrl: 'IMGES/M (9).png', price: '130 L.E' },
+            { name: 'مج HARYY POTTER', category: 'مج', imageUrl: 'IMGES/M (4).png', price: '130 L.E' },
+            { name: 'مج KRATOS', category: 'مج', imageUrl: 'IMGES/M (10).png', price: '130 L.E' },
+
+            // المجات الإضافية (10 لتكملة العدد)
+            { name: 'مج تصميم رقم 11', category: 'مج', imageUrl: 'IMGES/M (11).png', price: '130 L.E' },
+            { name: 'مج تصميم رقم 12', category: 'مج', imageUrl: 'IMGES/M (12).png', price: '130 L.E' },
+            { name: 'مج تصميم رقم 13', category: 'مج', imageUrl: 'IMGES/M (13).png', price: '130 L.E' },
+            { name: 'مج تصميم رقم 14', category: 'مج', imageUrl: 'IMGES/M (14).png', price: '130 L.E' },
+            { name: 'مج تصميم رقم 15', category: 'مج', imageUrl: 'IMGES/M (15).png', price: '130 L.E' },
+            { name: 'مج تصميم رقم 16', category: 'مج', imageUrl: 'IMGES/M (16).png', price: '130 L.E' },
+            { name: 'مج تصميم رقم 17', category: 'مج', imageUrl: 'IMGES/M (17).png', price: '130 L.E' },
+            { name: 'مج تصميم رقم 18', category: 'مج', imageUrl: 'IMGES/M (18).png', price: '130 L.E' },
+            { name: 'مج تصميم رقم 19', category: 'مج', imageUrl: 'IMGES/M (19).png', price: '130 L.E' },
+            { name: 'مج تصميم رقم 20', category: 'مج', imageUrl: 'IMGES/M (20).png', price: '130 L.E' },
+            
+            // ===========================================
+            // 4. قريباً وأمثلة الاختبار (4 بطاقات)
+            // ===========================================
+            
+            // Jacket & Tote Bag (2 قريباً)
+            { name: 'Soon', category: 'جاكيت', price: '750 L.E' },
+            { name: 'Soon', category: 'توتي باجز', price: '250 L.E' },
+
+            // أمثلة الاختبار (2)
+            {
+                name: 'هودي جديد (تجريبي)', category: 'هودي', price: '700 L.E', isTwoColor: true,
+                blackImageUrl: 'IMGES/BLACK/new_hoodie_black.png', 
+                whiteImageUrl: 'IMGES/WHITE/new_hoodie.png',
+            },
+            { 
+                name: 'مج جديد (تجريبي)', category: 'مج', 
+                imageUrl: 'IMGES/new_mug.png', 
+                price: '150 L.E' 
+            },
+        ];
+
+        // --- End of Product Data ---
+        
+        // --- Global Elements ---
+        const productGrid = document.getElementById('product-grid');
+        const categoryFiltersContainer = document.getElementById('category-filters');
+        const imageModal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const closeModal = document.getElementById('closeModal');
+        const prevImage = document.getElementById('prevImage');
+        const nextImage = document.getElementById('nextImage');
+        const modalMetadata = document.getElementById('modalMetadata');
+        let activeFilter = 'الكل';
+
+        // --- Category Descriptions ---
+        const categoryDescriptions = {
+            'هودي': 'هودي قطن 100% بطباعة DTF عالية الجودة يعبر عن هويتك.',
+            'مج': 'مج طباعة سبليمشن يعبر عن شغفك.',
+            'توتي باجز': 'قريباً...', 
+            'جاكيت': 'قريباً...',
+        };
+
+
+        // --- Slideshow Logic (Unchanged) ---
+        let currentSlideIndex = 0;
+        let slideshowInterval;
+        // ... (Slideshow functions remain the same: renderSlideshow, showSlide, nextSlide, prevSlide, startAutoplay, setupSlideshowInteractions) ...
+        
+        function renderSlideshow() {
+            const container = document.getElementById('slides-container');
+            const dotsContainer = document.getElementById('slideshow-dots');
+            container.innerHTML = '';
+            dotsContainer.innerHTML = '';
+
+            SLIDESHOW_IMAGES.forEach((url, index) => {
+                // 1. Create Slide Element
+                const slide = document.createElement('div');
+                slide.className = `slide absolute top-0 left-0 w-full h-full transition-opacity duration-1000 ${index === 0 ? 'active' : ''}`;
+                
+                // Add the image tag for better handling of local files and error states
+                slide.innerHTML = `<img src="${url}" alt="Slide ${index + 1}" class="w-full h-full object-contain">
+                                     <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                                     <span class="text-white text-3xl md:text-5xl font-extrabold p-4 rounded-lg bg-red-600 bg-opacity-70">${index + 1} / ${SLIDESHOW_IMAGES.length}</span>
+                                 </div>`;
+                container.appendChild(slide);
+                
+                // If image fails to load, show a placeholder background
+                const imgElement = slide.querySelector('img');
+                imgElement.onerror = function() {
+                    const errorText = `MISSING AD IMAGE: ${url.replace('IMGES/', '')}`;
+                    slide.style.backgroundImage = `url('${generatePlaceholder(errorText, 'black', 1200, 400)}')`;
+                    imgElement.style.display = 'none';
+                };
+                
+                // 2. Create Dot Indicator
+                const dot = document.createElement('span');
+                dot.className = `w-3 h-3 bg-white opacity-50 rounded-full transition-opacity cursor-pointer ${index === 0 ? 'opacity-100' : ''}`;
+                dot.onclick = () => showSlide(index);
+                dotsContainer.appendChild(dot);
+            });
+
+            // Set up initial classes
+            showSlide(0, false);
+            setupSlideshowInteractions(container);
+            startAutoplay();
+        }
+
+        function showSlide(index, transition = true) {
+            const slides = document.querySelectorAll('#slides-container .slide');
+            const dots = document.querySelectorAll('#slideshow-dots span');
+            
+            if (index >= slides.length) index = 0;
+            if (index < 0) index = slides.length - 1;
+
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                slide.style.opacity = '0';
+                if (!transition) {
+                    slide.style.transition = 'none';
+                }
+            });
+
+            dots.forEach(dot => dot.classList.remove('opacity-100'));
+
+            slides[index].classList.add('active');
+            // Force reflow before applying transition
+            void slides[index].offsetWidth; 
+            slides[index].style.transition = transition ? 'opacity 1s ease-in-out' : 'none';
+            slides[index].style.opacity = '1';
+
+            dots[index].classList.add('opacity-100');
+            currentSlideIndex = index;
+        }
+
+        function nextSlide() {
+            showSlide(currentSlideIndex + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlideIndex - 1);
+        }
+
+        function startAutoplay() {
+            clearInterval(slideshowInterval);
+            const interval = parseInt(document.getElementById('hero-slideshow').dataset.autoplayInterval) || 4000;
+            slideshowInterval = setInterval(nextSlide, interval);
+        }
+        
+        function setupSlideshowInteractions(container) {
+            let startX = 0;
+
+            container.addEventListener('mousedown', (e) => {
+                startX = e.clientX;
+                clearInterval(slideshowInterval);
+            });
+
+            container.addEventListener('mouseup', (e) => {
+                const diffX = e.clientX - startX;
+                if (diffX > 50) { // Swiped right (for RTL, this means previous)
+                    prevSlide();
+                } else if (diffX < -50) { // Swiped left (for RTL, this means next)
+                    nextSlide();
+                }
+                startAutoplay();
+            });
+
+            // Touch events for mobile swiping
+            container.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                clearInterval(slideshowInterval);
+            });
+
+            container.addEventListener('touchend', (e) => { 
+                const endX = e.changedTouches[0].clientX;
+                const diffX = endX - startX;
+                if (Math.abs(diffX) > 40) { // Require a substantial swipe
+                    if (diffX > 0) {
+                        prevSlide();
+                    } else {
+                        nextSlide();
+                    }
+                }
+                startAutoplay();
+            });
+        }
+
+        // --- Modal Navigation Logic (UPDATED FOR ALL CARDS) ---
+
+        // Function to update the modal content based on the given product index
+        function updateModalContent(index) {
+            const product = products[index];
+            if (!product) return; // Should not happen if boundaries are checked
+
+            // 1. Determine the image source to display initially in the modal
+            let initialSrc;
+            let currentColor = 'black';
+            
+            if (product.isTwoColor) {
+                // For two-color items (Hoodies), we try to match the color that was active on the card
+                const cardElement = document.querySelectorAll('.product-card')[index];
+                if (cardElement) {
+                    currentColor = cardElement.dataset.currentColor || 'black';
+                }
+                initialSrc = currentColor === 'black' ? product.blackImageUrl : product.whiteImageUrl;
+            } else {
+                // For single-color items (Mugs), use the single imageUrl
+                initialSrc = product.imageUrl;
+            }
+
+            // 2. Update Modal Metadata
+            modalMetadata.dataset.isTwoColor = product.isTwoColor || false;
+            modalMetadata.dataset.cardIndex = index;
+            modalMetadata.dataset.currentColor = currentColor;
+            
+            // 3. Show/Hide Navigation Arrows
+            // We always show the main navigation arrows now, as they move between cards.
+            prevImage.style.display = 'flex';
+            nextImage.style.display = 'flex';
+            
+            // 4. Load the Image (with error check)
+            const tempImg = new Image();
+            tempImg.src = initialSrc;
+
+            tempImg.onload = () => {
+                modalImage.src = initialSrc;
+                modalImage.classList.remove('opacity-50', 'bg-gray-200'); // Remove fallback styles
+            };
+
+            tempImg.onerror = () => {
+                // If the image is not available, display "غير متاح" using the placeholder
+                const placeholderText = product.name + (product.isTwoColor ? ` - ${currentColor === 'white' ? 'غير متاح' : 'MISSING'}` : '');
+                modalImage.src = generatePlaceholder(placeholderText, currentColor);
+                modalImage.classList.add('opacity-50', 'bg-gray-200'); 
+            };
+            
+            // Set source to trigger load/error handlers
+            modalImage.src = initialSrc; 
+        }
+        
+        // Function handles all navigation (Next/Prev Card, or Color Change if same card)
+        function navigateModal(direction) {
+            let currentIndex = parseInt(modalMetadata.dataset.cardIndex);
+            
+            if (isNaN(currentIndex) || currentIndex === -1) {
+                // Should not happen if modal opened correctly
+                return;
+            }
+
+            let newIndex = currentIndex;
+            const totalProducts = products.length;
+
+            if (direction === 'next-card') { // Next Card (Left Arrow Key/Click)
+                newIndex = (currentIndex + 1) % totalProducts;
+            } else if (direction === 'prev-card') { // Previous Card (Right Arrow Key/Click)
+                newIndex = (currentIndex - 1 + totalProducts) % totalProducts;
+            } else {
+                return;
+            }
+
+            // Update the modal to show the new card's content
+            updateModalContent(newIndex);
+        }
+        
+        // Event listeners for modal navigation
+        prevImage.addEventListener('click', (e) => { e.stopPropagation(); navigateModal('prev-card'); });
+        nextImage.addEventListener('click', (e) => { e.stopPropagation(); navigateModal('next-card'); });
+
+        // Keyboard navigation listener (active when modal is open)
+        document.addEventListener('keydown', (e) => {
+            if (imageModal.classList.contains('flex')) { // Check if modal is open
+                if (e.key === 'ArrowLeft') {
+                    // For RTL, ArrowLeft (Left physical key) means NEXT ITEM in the list
+                    navigateModal('next-card');
+                } else if (e.key === 'ArrowRight') {
+                    // For RTL, ArrowRight (Right physical key) means PREVIOUS ITEM in the list
+                    navigateModal('prev-card');
+                } else if (e.key === 'Escape') {
+                    hideModal();
+                }
+            }
+        });
+
+
+        // --- Color Toggle Logic for Hoodie Cards (INTERNAL) ---
+        // Remains to handle the dot clicks/swipes on the product card itself.
+
+        function toggleHoodieColor(card, color) {
+            const imgElement = card.querySelector('.product-image');
+            const overlay = card.querySelector('.unavailable-overlay'); 
+            const blackUrl = card.dataset.blackUrl;
+            const whiteUrl = card.dataset.whiteUrl;
+            const dots = card.querySelectorAll('.color-dot');
+            const isBlack = color === 'black';
+
+            // Determine the new image source
+            const newSrc = isBlack ? blackUrl : whiteUrl;
+            
+            // 1. Hide the overlay and ensure image visibility before attempting to load
+            if (overlay) overlay.classList.add('hidden');
+            imgElement.style.display = 'block'; 
+            
+            // 2. **CRITICAL FIX:** Clear existing onerror handler to ensure it re-triggers
+            imgElement.onerror = null; 
+
+            // 3. Define the dynamic onerror handler (لضمان ظهور "غير متاح" إذا فشل تحميل أي من الصورتين)
+            imgElement.onerror = () => {
+                // If loading fails for ANY color, we show the 'غير متاح' overlay
+                if (overlay) {
+                    imgElement.style.display = 'none'; 
+                    overlay.classList.remove('hidden');
+                } else {
+                    // Fallback to placeholder if overlay is somehow missing (safety net)
+                    const productName = card.querySelector('h3').textContent;
+                    imgElement.src = generatePlaceholder(productName, color);
+                    imgElement.style.display = 'block';
+                }
+            };
+            
+            // 4. Define the onload handler to clear any previous error/overlay state
+            imgElement.onload = () => {
+                // Ensure the onload only resets the overlay if the image actually loaded
+                if (overlay) overlay.classList.add('hidden');
+                imgElement.style.display = 'block';
+            }
+
+            // 5. Update image source (triggers onload or onerror)
+            imgElement.src = newSrc;
+
+
+            // Update active dot
+            dots.forEach(dot => dot.classList.remove('active'));
+            if (isBlack) {
+                dots[0].classList.add('active');
+            } else {
+                dots[1].classList.add('active');
+            }
+            card.dataset.currentColor = color;
+        }
+        
+        function setupColorToggleInteractions(card) {
+            const imageContainer = card.querySelector('.image-swipe-area');
+            
+            const dotBlack = card.querySelector('.dot-black');
+            const dotWhite = card.querySelector('.dot-white');
+
+            let startX = 0;
+
+            // Desktop Mouse Swipe
+            imageContainer.addEventListener('mousedown', (e) => {
+                startX = e.clientX;
+            });
+
+            imageContainer.addEventListener('mouseup', (e) => {
+                const diffX = e.clientX - startX;
+                if (Math.abs(diffX) > 40) { // Require a substantial swipe
+                    const currentColor = card.dataset.currentColor;
+                    const newColor = currentColor === 'black' ? 'white' : 'black';
+                    toggleHoodieColor(card, newColor);
+                }
+            });
+
+            // Mobile Touch Swipe
+            imageContainer.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+            });
+
+            imageContainer.addEventListener('touchend', (e) => { 
+                const endX = e.changedTouches[0].clientX;
+                const diffX = endX - startX;
+                if (Math.abs(diffX) > 40) { // Require a substantial swipe
+                    const currentColor = card.dataset.currentColor;
+                    const newColor = currentColor === 'black' ? 'white' : 'black';
+                    toggleHoodieColor(card, newColor);
+                }
+            });
+
+            // Dot Click Listeners
+            if (dotBlack) dotBlack.onclick = (e) => { e.stopPropagation(); toggleHoodieColor(card, 'black'); };
+            if (dotWhite) dotWhite.onclick = (e) => { e.stopPropagation(); toggleHoodieColor(card, 'white'); };
+
+            // Modal click listener
+            imageContainer.addEventListener('click', (e) => {
+                // Open modal using the current displayed image
+                const imgElement = card.querySelector('.product-image');
+                const overlay = card.querySelector('.unavailable-overlay');
+                
+                // Find the index of the product being clicked
+                const cardElements = Array.from(document.querySelectorAll('.product-card'));
+                const cardIndex = cardElements.indexOf(card);
+                const product = products[cardIndex];
+
+                if (imgElement.style.display === 'none' && overlay && !overlay.classList.contains('hidden')) {
+                     // If 'غير متاح' is showing, do not open the modal
+                    console.log("Image not available for magnification.");
+                } else {
+                    // Open Modal and display the current card's image
+                    updateModalContent(cardIndex);
+                    
+                    imageModal.classList.remove('hidden');
+                    imageModal.classList.add('flex');
+                }
+            });
+        }
+        
+
+        // --- Core Rendering Functions ---
+
+        // Render product cards
+        function renderProducts(filter = 'الكل') {
+            productGrid.innerHTML = '';
+            const filteredProducts = filter === 'الكل'
+                ? products
+                : products.filter(p => p.category === filter);
+
+            if (filteredProducts.length === 0) {
+                productGrid.innerHTML = `<p class="col-span-full text-center text-gray-500 py-10">لا توجد منتجات في هذا القسم حاليًا.</p>`;
+                return;
+            }
+
+            // Create the card elements (Unchanged logic)
+            filteredProducts.forEach(product => {
+                const description = categoryDescriptions[product.category] || '';
+                let cardHTML;
+
+                if (product.category === 'جاكيت' || product.category === 'توتي باجز') {
+                    // Render Coming Soon Card (Text Only)
+                    cardHTML = `
+                    <div class="product-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl flex flex-col h-full">
+                        <div class="w-full h-64 bg-gray-600 dark:bg-gray-700 flex items-center justify-center">
+                            <h3 class="text-3xl font-extrabold text-white tracking-widest">${product.name.toUpperCase()}</h3>
+                        </div>
+                        <div class="p-5 text-center flex-grow flex flex-col">
+                            <div class="flex-grow">
+                                <h3 class="text-xl font-bold mb-2 truncate">${product.name.toUpperCase()}</h3>
+                                <p class="text-sm text-red-600 dark:text-red-500 mb-2 font-semibold">${product.category}</p>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed min-h-[60px]">${description}</p>
+                            </div>
+                            <div class="text-2xl font-bold text-gray-400 dark:text-gray-500 mt-4">${product.price}</div>
+                        </div>
+                    </div>`;
+                } else if (product.category === 'هودي') {
+                    // Render Hoodie Card (Two colors with dots/swipe)
+                    const initialImageUrl = product.blackImageUrl;
+
+                    cardHTML = `
+                    <div class="product-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl flex flex-col" 
+                        data-black-url="${product.blackImageUrl}"
+                        data-white-url="${product.whiteImageUrl}"
+                        data-current-color="black">
+                        
+                        <div class="image-swipe-area w-full h-64 bg-gray-200 dark:bg-gray-700 cursor-pointer select-none relative">
+                            <!-- Image element -->
+                            <img src="${initialImageUrl}" alt="${product.name}" class="product-image w-full h-full object-cover transition-opacity duration-300">
+                            
+                            <!-- Overlay for 'Not Available' (FINAL FIX: Confirmed w-full h-full is present) -->
+                            <div class="unavailable-overlay hidden absolute inset-0 w-full h-full flex items-center justify-center bg-black z-10 transition-opacity duration-300">
+                                <span class="text-white text-2xl font-bold p-4 rounded-lg bg-red-600 shadow-lg">غير متاح</span>
+                            </div>
+
+                        </div>
+                        
+                        <div class="flex justify-center gap-3 py-2">
+                            <span class="color-dot dot-black active bg-black" title="اللون الأسود"></span>
+                            <span class="color-dot dot-white bg-white" title="اللون الأبيض"></span>
+                        </div>
+                        
+                        <div class="p-5 text-center flex-grow flex flex-col">
+                            <div class="flex-grow">
+                                <h3 class="text-xl font-bold mb-2 truncate">${product.name}</h3>
+                                <p class="text-sm text-red-600 dark:text-red-500 mb-2 font-semibold">${product.category}</p>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed min-h-[60px]">${description}</p>
+                            </div>
+                            <div class="text-2xl font-bold text-gray-900 dark:text-white mt-4">${product.price}</div>
+                        </div>
+                    </div>`;
+                } else {
+                    // Render standard cards (Mugs, etc. - single image)
+                    const imageUrl = product.imageUrl || generatePlaceholder(product.name, 'black');
+                    cardHTML = `
+                    <div class="product-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer flex flex-col" data-image-url="${imageUrl}">
+                        <div class="w-full h-64 bg-gray-200 dark:bg-gray-700 pointer-events-none">
+                             <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-full object-cover" onerror="this.src='${generatePlaceholder(product.name, 'black')}'">
+                        </div>
+                        <div class="p-5 text-center flex-grow flex flex-col">
+                            <div class="flex-grow">
+                                <h3 class="text-xl font-bold mb-2 truncate">${product.name}</h3>
+                                <p class="text-sm text-red-600 dark:text-red-500 mb-2 font-semibold">${product.category}</p>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed min-h-[60px]">${description}</p>
+                            </div>
+                            <div class="text-2xl font-bold text-gray-900 dark:text-white mt-4">${product.price}</div>
+                        </div>
+                    </div>`;
+                }
+
+                productGrid.innerHTML += cardHTML;
+            });
+            
+            // Attach event listeners after rendering
+            document.querySelectorAll('.product-card').forEach(card => {
+                // Find the index of the product being clicked
+                const cardElements = Array.from(document.querySelectorAll('.product-card'));
+                const cardIndex = cardElements.indexOf(card);
+                const product = products[cardIndex];
+
+
+                // Check if it's a hoodie card based on the presence of color URLs
+                if (card.dataset.blackUrl && card.dataset.whiteUrl) {
+                    // Setup swipe/dot listeners only for hoodie cards
+                    setupColorToggleInteractions(card);
+                    
+                    // Manually trigger the initial load for the black image
+                    const imgElement = card.querySelector('.product-image');
+                    const overlay = card.querySelector('.unavailable-overlay');
+                    const initialColor = card.dataset.currentColor;
+                    const initialSrc = imgElement.src;
+
+                    // Set up the dynamic onerror handler for the initial load
+                    imgElement.onerror = () => {
+                         if (overlay) {
+                            imgElement.style.display = 'none';
+                            overlay.classList.remove('hidden');
+                        } else {
+                            // Fallback to placeholder if overlay is missing
+                            const productName = card.querySelector('h3').textContent;
+                            imgElement.src = generatePlaceholder(productName, initialColor);
+                            imgElement.style.display = 'block';
+                        }
+                    };
+                    // Force re-read the src to trigger the handler if it failed previously
+                    imgElement.src = initialSrc;
+
+                } else {
+                    // Setup standard modal click listener for other cards (Mugs, etc.)
+                    card.addEventListener('click', () => {
+                        const imageElement = card.querySelector('img');
+                        // Ensure we use the current image source, including placeholders
+                        
+                        // Update Modal Content & open modal
+                        updateModalContent(cardIndex);
+                        
+                        imageModal.classList.remove('hidden');
+                        imageModal.classList.add('flex');
+                    });
+                }
+            });
+        }
+        
+        // Render category filter buttons (Unchanged)
+        function renderCategoryFilters() {
+            const categories = ['الكل', ...new Set(products.map(p => p.category))];
+            categoryFiltersContainer.innerHTML = '';
+            categories.forEach(category => {
+                const button = document.createElement('button');
+                button.textContent = category;
+                button.className = `px-3 py-2 rounded-md font-semibold transition-colors duration-300 text-sm md:text-base border-2 border-transparent ${
+                    activeFilter === category
+                    ? 'active-filter'
+                    : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'
+                }`;
+                
+                button.addEventListener('click', () => {
+                    activeFilter = category;
+                    renderProducts(activeFilter);
+                    updateActiveButton();
+                });
+                categoryFiltersContainer.appendChild(button);
+            });
+        }
+        
+        // Update the active filter button style (Unchanged)
+        function updateActiveButton() {
+            const buttons = categoryFiltersContainer.querySelectorAll('button');
+            buttons.forEach(button => {
+                if(button.textContent === activeFilter) {
+                    button.classList.add('active-filter');
+                    button.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-200', 'hover:bg-gray-300', 'dark:hover:bg-gray-600');
+                } else {
+                    button.classList.remove('active-filter');
+                    button.className = 'px-3 py-2 rounded-md font-semibold transition-colors duration-300 text-sm md:text-base border-2 border-transparent bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600';
+                }
+            });
+        }
+        
+        // Modal close functions (Unchanged)
+        const hideModal = () => {
+            imageModal.classList.add('hidden');
+            imageModal.classList.remove('flex');
+        };
+
+        closeModal.addEventListener('click', hideModal);
+        imageModal.addEventListener('click', (e) => {
+            // Only hide modal if the background (not the content) is clicked
+            if (e.target === imageModal || e.target.id === 'imageModalContent') {
+                hideModal();
+            }
+        });
+
+
+        // Initialize everything on page load
+        window.onload = () => {
+            renderSlideshow();
+            renderCategoryFilters();
+            renderProducts();
+        };
+// --- منطق السحب باللمس داخل العارض (Modal Touch Swipe Logic) ---
+        let modalTouchStartX = 0;
+        const MODAL_SWIPE_THRESHOLD = 50; // الحد الأدنى للمسافة للاعتراف بالسحب
+
+        imageModalContent.addEventListener('touchstart', (e) => {
+            if (imageModal.classList.contains('flex')) {
+                // حفظ موضع X لبدء اللمس (أول نقطة لمس)
+                modalTouchStartX = e.touches[0].clientX;
+            }
+        });
+
+        imageModalContent.addEventListener('touchend', (e) => {
+            if (imageModal.classList.contains('flex')) {
+                const touchEndX = e.changedTouches[0].clientX;
+                const diffX = touchEndX - modalTouchStartX;
+
+                if (Math.abs(diffX) > MODAL_SWIPE_THRESHOLD) { 
+                    e.stopPropagation(); // منع انتقال الحدث إذا تم اكتشاف سحب
+
+                    if (diffX > 0) {
+                        // سحب لليمين (diffX موجبة) -> الصورة السابقة (RTL)
+                        navigateModal('prev-card');
+                    } else {
+                        // سحب لليسار (diffX سالبة) -> الصورة التالية (RTL)
+                        navigateModal('next-card');
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
