@@ -462,7 +462,7 @@
                 slide.className = `slide absolute top-0 left-0 w-full h-full transition-opacity duration-1000 ${index === 0 ? 'active' : ''}`;
                 
                 // Only the image tag remains inside the slide for clean display
-                slide.innerHTML = `<img src="${url}" alt="Slide ${index + 1}" class="w-full h-full object-contain">`;
+                slide.innerHTML = `<img src="${url}" alt="Slide ${index + 1}" class="w-full h-full object-fill">`;
                 container.appendChild(slide);
                 
                 // If image fails to load, show a placeholder background
