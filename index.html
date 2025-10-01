@@ -1200,6 +1200,38 @@
             // يتم عرض المنتجات بناءً على الفلتر الافتراضي الجديد (هودي)
             renderProducts(activeFilter); 
         };
+// Global variable to track swipe start position in the modal
+let modalStartX = 0;
+
+// Get the modal content element
+const modalContent = document.getElementById('imageModalContent');
+
+// Add touch event listeners to the modal content
+modalContent.addEventListener('touchstart', (e) => {
+    // Stop event propagation to prevent background scrolling
+    e.stopPropagation();
+    modalStartX = e.touches[0].clientX;
+});
+
+modalContent.addEventListener('touchend', (e) => {
+    // Stop event propagation
+    e.stopPropagation();
+    const endX = e.changedTouches[0].clientX;
+    const diffX = endX - modalStartX;
+    const swipeThreshold = 50; // Minimum swipe distance in pixels
+
+    // Check if the swipe is significant
+    if (Math.abs(diffX) > swipeThreshold) {
+        // Navigate based on swipe direction
+        // In an RTL layout (dir="rtl"), a right swipe (diffX > 0) means "previous" item.
+        // A left swipe (diffX < 0) means "next" item.
+        if (diffX > 0) {
+            navigateModal('prev-card');
+        } else {
+            navigateModal('next-card');
+        }
+    }
+});
     </script>
 </body>
 </html>
