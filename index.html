@@ -1,4 +1,4 @@
-<!-- هذا الملف يمثل بطاقة عرض الهودي بتطبيق هيكلية المجلدات الجديدة: IMGES/BLACK و IMGES/WHITE -->
+<!-- هذا الملف يمثل بطاقة عرض الهودي بتطبيق هيكلية المجلدات الجديدة: IMGES/BLACK و IMGES/WHITE و IMGES/GIRLS -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -78,6 +78,14 @@
         #imageModalContent {
             position: relative;
         }
+        /* New CSS for clearer scaled images */
+        .product-image {
+            /* Force GPU acceleration for sharper resizing */
+            transform: translateZ(0); 
+            /* Ensure maximum clarity for scaled images */
+            image-rendering: -webkit-optimize-contrast; 
+            image-rendering: crisp-edges;
+        }
     </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
@@ -99,7 +107,7 @@
                 <span class="text-2xl sm:text-3xl font-extrabold text-gray-800 dark:text-white tracking-tight">FanVerse</span>
             </a>
             <nav>
-                <!-- Category filter buttons will be rendered here by JS -->
+                <!-- Category filter buttons will be rendered here by JS (Now excluding 'الكل') -->
                 <div id="category-filters" class="flex gap-2 flex-wrap justify-center"></div>
             </nav>
         </div>
@@ -122,6 +130,13 @@
         <!-- Products Section -->
         <section id="products">
             <h2 class="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">منتجاتنا</h2>
+            
+            <!-- GENDER FILTERS CONTAINER - Hidden by default, appears only when 'هودي' is selected -->
+            <div id="gender-filters" class="flex justify-center gap-4 mb-8" style="display: none;">
+                <!-- Buttons will be rendered here by JS -->
+            </div>
+            <!-- END GENDER FILTERS CONTAINER -->
+
             <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 <!-- Product cards will be displayed here -->
             </div>
@@ -129,7 +144,7 @@
 
         <!-- About Us Section -->
         <section id="about" class="mt-20 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl">
-            <h2 class="text-3xl font-bold text-center mb-6 text-red-600 dark:text-red-500"> FanVerse</h2>
+            <h2 class="text-3xl font-bold text-center mb-6 text-red-600 dark:text-red-500"> FanVerse </h2>
             <p class="text-center max-w-3xl mx-auto mb-8 text-gray-600 dark:text-gray-300">
                 FanVerse مش مجرد براند، دي مساحة تعبر بيها عن نفسك.
 من هدوم شيك لحد أكسسوار يومي، كل قطعة معمولة عشان تديك ستايل يخصك أنت.
@@ -171,7 +186,7 @@
             <div id="nextImage" class="modal-arrow" style="border-radius: 0 0.5rem 0.5rem 0;">&#x276E;</div> <!-- Left arrow (Next in RTL layout) -->
             
             <!-- Metadata (stores info about the current image) -->
-            <div id="modalMetadata" data-is-two-color="false" data-card-index="-1" data-current-color="black" class="hidden"></div>
+            <div id="modalMetadata" data-is-two-color="false" data-card-index="-1" data-current-color="black" data-filtered-indices="[]" class="hidden"></div>
         </div>
     </div>
 
@@ -186,7 +201,6 @@
         }
 
         // --- Slideshow Configuration ---
-        // تم تحديث المسارات لتبدأ بـ IMGES
         const SLIDESHOW_IMAGES = [
             'IMGES/ad_1.png', 
             'IMGES/ad_2.png', 
@@ -197,141 +211,181 @@
         
         // --- Product Data ---
         
-        // **مصفوفة المنتجات (60 هودي + 19 مج + 2 قريباً = 81 بطاقة):**
+        // **مصفوفة المنتجات (60 هودي أصلي بدون gender + 3 GIRLS + 19 مج + 2 قريباً = 84 بطاقة):**
         const products = [
             // ===========================================
-            // 1. بطاقات الهودي (48 بطاقة)
+            // 1. بطاقات الهودي الأصلية (لا يوجد خاصية gender)
             // ===========================================
             {
-                name: 'هودي space 1', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                name: 'هودي space 1', category: 'هودي', price: '650 L.E', isTwoColor: true, 
                 blackImageUrl: 'IMGES/BLACK/2.png',
                 whiteImageUrl: 'IMGES/WHITE/2.png', 
             },
             {
-                name: 'هودي space 2', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                name: 'هودي space 2', category: 'هودي', price: '650 L.E', isTwoColor: true, 
                 blackImageUrl: 'IMGES/BLACK/23.png',
                 whiteImageUrl: 'IMGES/WHITE/23.png', 
             },
             {
-                name: 'هودي RABBIT', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                name: 'هودي RABBIT', category: 'هودي', price: '650 L.E', isTwoColor: true, 
                 blackImageUrl: 'IMGES/BLACK/1.png',
                 whiteImageUrl: 'IMGES/WHITE/1.png',
             },
             {
-                name: 'هودي GOOD VIBES', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                name: 'هودي GOOD VIBES', category: 'هودي', price: '650 L.E', isTwoColor: true, 
                 blackImageUrl: 'IMGES/BLACK/36.png',
                 whiteImageUrl: 'IMGES/WHITE/36.png',
             },
 
             {
-                name: 'هودي cyborg samurai', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                name: 'هودي cyborg samurai', category: 'هودي', price: '650 L.E', isTwoColor: true, 
                 blackImageUrl: 'IMGES/BLACK/3.png',
                 whiteImageUrl: 'IMGES/WHITE/3.png',
             },
             {
-                name: 'هودي RAVEN', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                name: 'هودي RAVEN', category: 'هودي', price: '650 L.E', isTwoColor: true, 
                 blackImageUrl: 'IMGES/BLACK/8.png',
                 whiteImageUrl: 'IMGES/WHITE/8.png',
             },
             {
-                name: 'هودي YOU', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                name: 'هودي YOU', category: 'هودي', price: '650 L.E', isTwoColor: true, 
                 blackImageUrl: 'IMGES/BLACK/5.png',
                 whiteImageUrl: 'IMGES/WHITE/5.png',
             },
             {
-                name: 'هودي OUT OF BOX', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                name: 'هودي OUT OF BOX', category: 'هودي', price: '650 L.E', isTwoColor: true, 
                 blackImageUrl: 'IMGES/BLACK/6.png',
                 whiteImageUrl: 'IMGES/WHITE/6.png',
             },
             {
-                name: 'هودي Black Clover', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                name: 'هودي Black Clover', category: 'هودي', price: '650 L.E', isTwoColor: true, 
                 blackImageUrl: 'IMGES/BLACK/7.png',
                 whiteImageUrl: 'IMGES/WHITE/7.png',
             },
             {
-                name: 'هودي samurai', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                name: 'هودي samurai', category: 'هودي', price: '650 L.E', isTwoColor: true, 
                 blackImageUrl: 'IMGES/BLACK/9.png',
                 whiteImageUrl: 'IMGES/WHITE/9.png',
             },
             {
-                name: 'هودي ANGEL', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                name: 'هودي ANGEL', category: 'هودي', price: '650 L.E', isTwoColor: true, 
                 blackImageUrl: 'IMGES/BLACK/10.png',
                 whiteImageUrl: 'IMGES/WHITE/10.png',
             },
             {
-                name: 'هودي Yuji Itadori', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                name: 'هودي Yuji Itadori', category: 'هودي', price: '650 L.E', isTwoColor: true, 
                 blackImageUrl: 'IMGES/BLACK/4.png',
                 whiteImageUrl: 'IMGES/WHITE/4.png',
             },
             {
-                name: 'هودي breaking bad', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                name: 'هودي breaking bad', category: 'هودي', price: '650 L.E', isTwoColor: true, 
                 blackImageUrl: 'IMGES/BLACK/11.png',
                 whiteImageUrl: 'IMGES/WHITE/11.png',
             },
             {
-                name: 'هودي ZORO', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                name: 'هودي ZORO', category: 'هودي', price: '650 L.E', isTwoColor: true, 
                 blackImageUrl: 'IMGES/BLACK/12.png',
                 whiteImageUrl: 'IMGES/WHITE/12.png',
             },
             
             {
-                name: 'هودي Pharaon', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                name: 'هودي Pharaon', category: 'هودي', price: '650 L.E', isTwoColor: true, 
                 blackImageUrl: 'IMGES/BLACK/31.png',
                 whiteImageUrl: 'IMGES/WHITE/24.png',
             },
 
             {
-                name: 'هودي LOFY', category: 'هودي', price: '650 L.E', isTwoColor: true,
+                name: 'هودي LOFY', category: 'هودي', price: '650 L.E', isTwoColor: true, 
                 blackImageUrl: 'IMGES/BLACK/16.png',
                 whiteImageUrl: 'IMGES/WHITE/16.png',
             },
             
-            // 2. البطاقات الإضافية للهودي (32 بطاقة)
-            { name: 'هودي تصميم رقم 17', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/17.png', whiteImageUrl: 'IMGES/WHITE/17.png' },
-            { name: 'هودي تصميم رقم 18', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/18.png', whiteImageUrl: 'IMGES/WHITE/18.png' },
-            { name: 'هودي تصميم رقم 19', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/19.png', whiteImageUrl: 'IMGES/WHITE/19.png' },
-            { name: 'هودي تصميم رقم 20', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/20.png', whiteImageUrl: 'IMGES/WHITE/20.png' },
-            { name: 'هودي تصميم رقم 21', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/21.png', whiteImageUrl: 'IMGES/WHITE/21.png' },
-            { name: 'هودي تصميم رقم 22', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/22.png', whiteImageUrl: 'IMGES/WHITE/22.png' },
-            { name: 'هودي تصميم رقم 23', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/23.png', whiteImageUrl: 'IMGES/WHITE/23.png' },
-            { name: 'هودي تصميم رقم 24', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/24.png', whiteImageUrl: 'IMGES/WHITE/24.png' },
-            { name: 'هودي تصميم رقم 25', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/25.png', whiteImageUrl: 'IMGES/WHITE/25.png' },
-            { name: 'هودي تصميم رقم 26', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/26.png', whiteImageUrl: 'IMGES/WHITE/26.png' },
-            { name: 'هودي تصميم رقم 27', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/27.png', whiteImageUrl: 'IMGES/WHITE/27.png' },
-            { name: 'هودي تصميم رقم 28', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/28.png', whiteImageUrl: 'IMGES/WHITE/28.png' },
-            { name: 'هودي تصميم رقم 29', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/29.png', whiteImageUrl: 'IMGES/WHITE/29.png' },
-            { name: 'هودي تصميم رقم 30', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/30.png', whiteImageUrl: 'IMGES/WHITE/30.png' },
-            { name: 'هودي تصميم رقم 31', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/31.png', whiteImageUrl: 'IMGES/WHITE/31.png' },
-            { name: 'هودي تصميم رقم 32', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/32.png', whiteImageUrl: 'IMGES/WHITE/32.png' },
-            { name: 'هودي تصميم رقم 33', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/33.png', whiteImageUrl: 'IMGES/WHITE/33.png' },
-            { name: 'هودي تصميم رقم 34', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/34.png', whiteImageUrl: 'IMGES/WHITE/34.png' },
-            { name: 'هودي تصميم رقم 35', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/35.png', whiteImageUrl: 'IMGES/WHITE/35.png' },
-            { name: 'هودي تصميم رقم 36', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/36.png', whiteImageUrl: 'IMGES/WHITE/36.png' },
-            { name: 'هودي تصميم رقم 37', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/37.png', whiteImageUrl: 'IMGES/WHITE/37.png' },
-            { name: 'هودي تصميم رقم 38', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/38.png', whiteImageUrl: 'IMGES/WHITE/38.png' },
-            { name: 'هودي تصميم رقم 39', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/39.png', whiteImageUrl: 'IMGES/WHITE/39.png' },
-            { name: 'هودي تصميم رقم 40', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/40.png', whiteImageUrl: 'IMGES/WHITE/40.png' },
-            { name: 'هودي تصميم رقم 41', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/41.png', whiteImageUrl: 'IMGES/WHITE/41.png' },
-            { name: 'هودي تصميم رقم 42', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/42.png', whiteImageUrl: 'IMGES/WHITE/42.png' },
-            { name: 'هودي تصميم رقم 43', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/43.png', whiteImageUrl: 'IMGES/WHITE/43.png' },
-            { name: 'هودي تصميم رقم 44', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/44.png', whiteImageUrl: 'IMGES/WHITE/44.png' },
-            { name: 'هودي تصميم رقم 45', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/45.png', whiteImageUrl: 'IMGES/WHITE/45.png' },
-            { name: 'هودي تصميم رقم 46', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/46.png', whiteImageUrl: 'IMGES/WHITE/46.png' },
-            { name: 'هودي تصميم رقم 47', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/47.png', whiteImageUrl: 'IMGES/WHITE/47.png' },
-            { name: 'هودي تصميم رقم 48', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/48.png', whiteImageUrl: 'IMGES/WHITE/48.png' },
-                     
-                        { name: 'هودي تصميم رقم 50', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/50.png', whiteImageUrl: 'IMGES/WHITE/50.png' },
-                        { name: 'هودي تصميم رقم 60', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/51.png', whiteImageUrl: 'IMGES/WHITE/51.png' },
-{ name: 'هودي تصميم رقم 61', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/52.png', whiteImageUrl: 'IMGES/WHITE/52.png' },
+            // 2. البطاقات الإضافية للهودي (32 بطاقة) - الأصلية
+            { name: 'هودي تصميم رقم 17', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/17.png', whiteImageUrl: 'IMGES/WHITE/17.png' }, 
+            { name: 'هودي تصميم رقم 18', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/18.png', whiteImageUrl: 'IMGES/WHITE/18.png' }, 
+            { name: 'هودي تصميم رقم 19', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/19.png', whiteImageUrl: 'IMGES/WHITE/19.png' }, 
+            { name: 'هودي تصميم رقم 20', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/20.png', whiteImageUrl: 'IMGES/WHITE/20.png' }, 
+            { name: 'هودي تصميم رقم 21', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/21.png', whiteImageUrl: 'IMGES/WHITE/21.png' }, 
+            { name: 'هودي تصميم رقم 22', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/22.png', whiteImageUrl: 'IMGES/WHITE/22.png' }, 
+            { name: 'هودي تصميم رقم 23', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/23.png', whiteImageUrl: 'IMGES/WHITE/23.png' }, 
+            { name: 'هودي تصميم رقم 24', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/24.png', whiteImageUrl: 'IMGES/WHITE/24.png' }, 
+            { name: 'هودي تصميم رقم 25', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/25.png', whiteImageUrl: 'IMGES/WHITE/25.png' }, 
+            { name: 'هودي تصميم رقم 26', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/26.png', whiteImageUrl: 'IMGES/WHITE/26.png' }, 
+            { name: 'هودي تصميم رقم 27', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/27.png', whiteImageUrl: 'IMGES/WHITE/27.png' }, 
+            { name: 'هودي تصميم رقم 28', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/28.png', whiteImageUrl: 'IMGES/WHITE/28.png' }, 
+            { name: 'هودي تصميم رقم 29', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/29.png', whiteImageUrl: 'IMGES/WHITE/29.png' }, 
+            { name: 'هودي تصميم رقم 30', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/30.png', whiteImageUrl: 'IMGES/WHITE/30.png' }, 
+            { name: 'هودي تصميم رقم 31', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/31.png', whiteImageUrl: 'IMGES/WHITE/31.png' }, 
+            { name: 'هودي تصميم رقم 32', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/32.png', whiteImageUrl: 'IMGES/WHITE/32.png' }, 
+            { name: 'هودي تصميم رقم 33', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/33.png', whiteImageUrl: 'IMGES/WHITE/33.png' }, 
+            { name: 'هودي تصميم رقم 34', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/34.png', whiteImageUrl: 'IMGES/WHITE/34.png' }, 
+            { name: 'هودي تصميم رقم 35', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/35.png', whiteImageUrl: 'IMGES/WHITE/35.png' }, 
+            { name: 'هودي تصميم رقم 36', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/36.png', whiteImageUrl: 'IMGES/WHITE/36.png' }, 
+            { name: 'هودي تصميم رقم 37', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/37.png', whiteImageUrl: 'IMGES/WHITE/37.png' }, 
+            { name: 'هودي تصميم رقم 38', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/38.png', whiteImageUrl: 'IMGES/WHITE/38.png' }, 
+            { name: 'هودي تصميم رقم 39', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/39.png', whiteImageUrl: 'IMGES/WHITE/39.png' }, 
+            { name: 'هودي تصميم رقم 40', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/40.png', whiteImageUrl: 'IMGES/WHITE/40.png' }, 
+            { name: 'هودي تصميم رقم 41', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/41.png', whiteImageUrl: 'IMGES/WHITE/41.png' }, 
+            { name: 'هودي تصميم رقم 42', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/42.png', whiteImageUrl: 'IMGES/WHITE/42.png' }, 
+            { name: 'هودي تصميم رقم 43', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/43.png', whiteImageUrl: 'IMGES/WHITE/43.png' }, 
+            { name: 'هودي تصميم رقم 44', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/44.png', whiteImageUrl: 'IMGES/WHITE/44.png' }, 
+            { name: 'هودي تصميم رقم 45', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/45.png', whiteImageUrl: 'IMGES/WHITE/45.png' }, 
+            { name: 'هودي تصميم رقم 46', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/46.png', whiteImageUrl: 'IMGES/WHITE/46.png' }, 
+            { name: 'هودي تصميم رقم 47', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/47.png', whiteImageUrl: 'IMGES/WHITE/47.png' }, 
+            { name: 'هودي تصميم رقم 48', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/48.png', whiteImageUrl: 'IMGES/WHITE/48.png' }, 
+            
+            { name: 'هودي تصميم رقم 50', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/50.png', whiteImageUrl: 'IMGES/WHITE/50.png' }, 
+            { name: 'هودي تصميم رقم 60', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/51.png', whiteImageUrl: 'IMGES/WHITE/51.png' }, 
+            { name: 'هودي تصميم رقم 61', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/52.png', whiteImageUrl: 'IMGES/WHITE/52.png' }, 
 
-{ name: 'هودي تصميم رقم 62', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/53.png', whiteImageUrl: 'IMGES/WHITE/53.png' },
+            { name: 'هودي تصميم رقم 62', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/53.png', whiteImageUrl: 'IMGES/WHITE/53.png' }, 
 
+            { name: 'هودي تصميم رقم 63', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/54.png', whiteImageUrl: 'IMGES/WHITE/54.png' }, 
+            { name: 'هودي تصميم رقم 64', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/55.png', whiteImageUrl: 'IMGES/WHITE/55.png' }, 
+            
+            // ===========================================
+            // 3. بطاقات الهودي الجديدة (GIRLS) - 3 CARDS ADDED HERE
+            // تم تحديد خاصية gender: 'GIRLS'
+            // ===========================================
+            { 
+                name: 'هودي (GIRL) تصميم 1', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS', 
+                blackImageUrl: 'IMGES/GIRLS/1.png', 
+                whiteImageUrl: 'IMGES/GIRLS/h(2).png' 
+            },
+            { 
+                name: 'هودي (GIRL) تصميم 2', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS', 
+                blackImageUrl: 'IMGES/GIRLS/2.png', 
+                whiteImageUrl: 'IMGES/GIRLS/3.png' 
+            },
+            { 
+                name: 'هودي (GIRL) تصميم 3', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS', 
+                blackImageUrl: 'IMGES/GIRLS/4.png', 
+                whiteImageUrl: 'IMGES/GIRLS/.png' 
+            },
+            { 
+                name: 'هودي (GIRL) تصميم 4', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS', 
+                blackImageUrl: 'IMGES/GIRLS/5.png', 
+                whiteImageUrl: 'IMGES/GIRLS/.png' 
+            },
+            { 
+                name: 'هودي (GIRL) تصميم 5', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS', 
+                blackImageUrl: 'IMGES/GIRLS/6.png', 
+                whiteImageUrl: 'IMGES/GIRLS/.png' 
+            },
+            { 
+                name: 'هودي (GIRL) تصميم 6', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS', 
+                blackImageUrl: 'IMGES/GIRLS/7.png', 
+                whiteImageUrl: 'IMGES/GIRLS/.png' 
+            },
+            { 
+                name: 'هودي (GIRL) تصميم 7', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS', 
+                blackImageUrl: 'IMGES/GIRLS/8.png', 
+                whiteImageUrl: 'IMGES/GIRLS/.png' 
+            },
 
-{ name: 'هودي تصميم رقم 63', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/54.png', whiteImageUrl: 'IMGES/WHITE/54.png' },
-{ name: 'هودي تصميم رقم 64', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/55.png', whiteImageUrl: 'IMGES/WHITE/55.png' },
 
             // ===========================================
-            // 3. بطاقات المجات (19 بطاقة)
+            // 4. بطاقات المجات (19 بطاقة)
             // ===========================================
             
             { name: 'مج JOKER', category: 'مج', imageUrl: 'IMGES/M (1).png', price: '130 L.E' },
@@ -355,26 +409,35 @@
 
             
             // ===========================================
-            // 4. قريباً وأمثلة الاختبار (4 بطاقات)
+            // 5. قريباً وأمثلة الاختبار (2 بطاقات)
             // ===========================================
             
             // Jacket & Tote Bag (2 قريباً)
             { name: 'Soon', category: 'جاكيت', price: '750 L.E' },
             { name: 'Soon', category: 'توتي باجز', price: '250 L.E' },
- ];
+        ];
 
-                            // --- End of Product Data ---
+            // --- End of Product Data ---
         
         // --- Global Elements ---
         const productGrid = document.getElementById('product-grid');
         const categoryFiltersContainer = document.getElementById('category-filters');
+        
+        const genderFiltersContainer = document.getElementById('gender-filters');
+        let activeGenderFilter = 'الكل'; 
+
         const imageModal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
         const closeModal = document.getElementById('closeModal');
         const prevImage = document.getElementById('prevImage');
         const nextImage = document.getElementById('nextImage');
         const modalMetadata = document.getElementById('modalMetadata');
-        let activeFilter = 'الكل';
+        
+        let activeFilter = 'هودي'; // Default filter
+        
+        // NEW: Array to hold references to the currently displayed *card elements*
+        let currentlyDisplayedCards = []; 
+
 
         // --- Category Descriptions ---
         const categoryDescriptions = {
@@ -385,7 +448,7 @@
         };
 
 
-        // --- Slideshow Logic (Unchanged) ---
+        // --- Slideshow Logic (MODIFIED) ---
         let currentSlideIndex = 0;
         let slideshowInterval;
         
@@ -396,28 +459,24 @@
             dotsContainer.innerHTML = '';
 
             SLIDESHOW_IMAGES.forEach((url, index) => {
-                // 1. Create Slide Element
+                // 1. Create Slide Element (Removed the overlay and slide numbering span)
                 const slide = document.createElement('div');
                 slide.className = `slide absolute top-0 left-0 w-full h-full transition-opacity duration-1000 ${index === 0 ? 'active' : ''}`;
                 
-                // Add the image tag for better handling of local files and error states
-                slide.innerHTML = `<img src="${url}" alt="Slide ${index + 1}" class="w-full h-full object-contain">
-                                     <span class="text-white text-3xl md:text-5xl font-extrabold p-4 rounded-lg bg-red-600 bg-opacity-70">${index + 1} / ${SLIDESHOW_IMAGES.length}</span>
-                                 </div>`;`;
-                                     <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-                                     <span class="text-white text-3xl md:text-5xl font-extrabold p-4 rounded-lg bg-red-600 bg-opacity-70">${index + 1} / ${SLIDESHOW_IMAGES.length}</span>
-                                 </div>`;
+                // Only the image tag remains inside the slide for clean display
+                slide.innerHTML = `<img src="${url}" alt="Slide ${index + 1}" class="w-full h-full object-contain">`;
                 container.appendChild(slide);
                 
                 // If image fails to load, show a placeholder background
                 const imgElement = slide.querySelector('img');
                 imgElement.onerror = function() {
                     const errorText = `MISSING AD IMAGE: ${url.replace('IMGES/', '')}`;
-                    slide.style.backgroundImage = `url('${generatePlaceholder(errorText, 'black', 1200, 400)}')`;
-                    imgElement.style.display = 'none';
+                    // Changed object-contain to object-cover for background placeholder visibility
+                    imgElement.className = 'w-full h-full object-cover';
+                    imgElement.src = generatePlaceholder(errorText, 'black', 1200, 400);
                 };
                 
-                // 2. Create Dot Indicator
+                // 2. Create Dot Indicator (Unchanged)
                 const dot = document.createElement('span');
                 dot.className = `w-3 h-3 bg-white opacity-50 rounded-full transition-opacity cursor-pointer ${index === 0 ? 'opacity-100' : ''}`;
                 dot.onclick = () => showSlide(index);
@@ -511,12 +570,13 @@
         
         // =================================================================
         //
-        // --- NEW/MODIFIED FUNCTIONS FOR HOODIE PRIORITY LOADING ---
+        // --- HOODIE PRIORITY LOADING & COLOR TOGGLE FUNCTIONS ---
         //
         // =================================================================
 
         // دالة مساعدة للتحقق مما إذا كان المنتج يحتوي على صورة متاحة للعرض
         async function isProductImageAvailable(product) {
+            if (!product) return false;
             if (product.isTwoColor) {
                 // Hoodies: Check if black is available, then white
                 const isBlackAvailable = await checkImageExists(product.blackImageUrl);
@@ -550,69 +610,99 @@
             const whiteUrl = card.dataset.whiteUrl;
             const imgElement = card.querySelector('.product-image');
             const overlay = card.querySelector('.unavailable-overlay');
+            const dotBlack = card.querySelector('.dot-black');
+            const dotWhite = card.querySelector('.dot-white');
 
-            // Attempt to load the black image first
-            const checkBlack = () => {
+            // وظيفة مساعدة لتحديد اللون النشط
+            const setActiveColor = (color) => {
+                if (dotBlack) dotBlack.classList.remove('active');
+                if (dotWhite) dotWhite.classList.remove('active');
+                if (color === 'black' && dotBlack) dotBlack.classList.add('active');
+                if (color === 'white' && dotWhite) dotWhite.classList.add('active');
+                card.dataset.currentColor = color;
+            };
+
+            // وظيفة مساعدة لعرض خطأ (غير متاح)
+            const showUnavailable = () => {
+                if (overlay) {
+                    imgElement.style.display = 'none';
+                    overlay.classList.remove('hidden');
+                } else {
+                    const productName = card.querySelector('h3').textContent;
+                    imgElement.src = generatePlaceholder(productName, 'black');
+                    imgElement.style.display = 'block';
+                }
+                // عند الفشل، نظريًا لا يوجد لون نشط لكن نحافظ على حالته الافتراضية 'black'
+                setActiveColor('black');
+            };
+
+            // 1. محاولة تحميل الصورة السوداء
+            const tryLoadBlack = () => {
                 const tempBlack = new Image();
                 tempBlack.onload = () => {
-                    // Black image available: set it as active (this also calls toggleHoodieColor)
-                    toggleHoodieColor(card, 'black');
+                    imgElement.src = blackUrl;
+                    setActiveColor('black');
+                    if (overlay) overlay.classList.add('hidden');
+                    imgElement.style.display = 'block';
                 };
                 tempBlack.onerror = () => {
-                    // Black image unavailable: attempt to load white image
-                    checkWhite();
+                    // إذا فشل الأسود، ننتقل لمحاولة تحميل الأبيض
+                    tryLoadWhite();
                 };
                 tempBlack.src = blackUrl;
             };
 
-            // Attempt to load the white image
-            const checkWhite = () => {
+            // 2. محاولة تحميل الصورة البيضاء
+            const tryLoadWhite = () => {
                 const tempWhite = new Image();
                 tempWhite.onload = () => {
-                    // White image available: set it as active (this also calls toggleHoodieColor)
-                    toggleHoodieColor(card, 'white');
+                    imgElement.src = whiteUrl;
+                    setActiveColor('white');
+                    if (overlay) overlay.classList.add('hidden');
+                    imgElement.style.display = 'block';
                 };
                 tempWhite.onerror = () => {
-                    // Both images unavailable: Fallback to showing 'غير متاح' on the black view (visual default state)
-                    // We must manually trigger the onerror logic since the onload/onerror chain above doesn't control the live imgElement
-                    if (overlay) {
-                        imgElement.style.display = 'none';
-                        overlay.classList.remove('hidden');
-                        // Ensure dots reflect the default black/unavailable state
-                        const dots = card.querySelectorAll('.color-dot');
-                        if (dots[0]) dots[0].classList.add('active');
-                        if (dots[1]) dots[1].classList.remove('active');
-                        card.dataset.currentColor = 'black';
-                    }
+                    // إذا فشل الأبيض أيضًا، نظهر "غير متاح"
+                    showUnavailable();
                 };
                 tempWhite.src = whiteUrl;
             };
             
-            // Start the priority loading chain
-            checkBlack();
+            // البدء بمحاولة تحميل الأسود
+            tryLoadBlack();
 
-            // Ensure swipe/dot listeners are set up for later interaction
+            // يجب التأكد من إزالة أي مستمعي onerror أو onload سابقين من عنصر الصورة الفعلي
+            imgElement.onload = null;
+            imgElement.onerror = null;
+
+            // التأكد من إعداد مستمعي التفاعل (لأن المنطق أعلاه خاص بالتهيئة فقط)
             setupColorToggleInteractions(card);
         }
 
-        // --- Modal Navigation Logic (UPDATED FOR ALL CARDS) ---
+        // --- Modal Navigation Logic (MODIFIED TO USE filteredIndices) ---
 
-        // Function to update the modal content based on the given product index
-        function updateModalContent(index) {
-            const product = products[index];
-            if (!product) return; // Should not happen if boundaries are checked
+        /**
+         * تحديث محتوى الـ Modal باستخدام الفهرس المفلتر (position in the visible grid)
+         * @param {number} filteredIndex - موضع المنتج ضمن القائمة المفلترة حاليًا.
+         */
+        function updateModalContent(filteredIndex) {
+            const indices = JSON.parse(modalMetadata.dataset.filteredIndices || '[]');
+            if (filteredIndex < 0 || filteredIndex >= indices.length) return;
 
-            // 1. Determine image source, prioritizing available images for Hoodies
-            
-            // 2. Update Modal Metadata
+            // احصل على الفهرس الأصلي في مصفوفة المنتجات الكاملة
+            const originalIndex = indices[filteredIndex]; 
+            const product = products[originalIndex];
+
+            // 1. Update Modal Metadata 
             modalMetadata.dataset.isTwoColor = product.isTwoColor || false;
-            modalMetadata.dataset.cardIndex = index;
+            modalMetadata.dataset.cardIndex = filteredIndex; // CRITICAL: Store filtered index for navigation
             
-            // 3. Show/Hide Navigation Arrows
-            prevImage.style.display = 'flex';
-            nextImage.style.display = 'flex';
+            // 2. Show/Hide Navigation Arrows
+            const showNav = indices.length > 1;
+            prevImage.style.display = showNav ? 'flex' : 'none';
+            nextImage.style.display = showNav ? 'flex' : 'none';
             
-            // 4. Load the Image (with priority check for Hoodies)
+            // 3. Load the Image
             if (product.isTwoColor) {
                 // Priority Load for Modal: Black -> White -> Placeholder
                 const tryLoadImage = (url, color, finalFallback = false) => {
@@ -640,11 +730,9 @@
                             tryLoadImage(product.whiteImageUrl, 'white', true);
                         }
                     };
-                    
                     // Set modal image src to the loading image's src for immediate display if possible
                     modalImage.src = tempImg.src;
                 };
-
                 // Start with Black
                 tryLoadImage(product.blackImageUrl, 'black', false);
                 
@@ -666,50 +754,50 @@
                     modalImage.src = generatePlaceholder(placeholderText, 'black');
                     modalImage.classList.add('opacity-50', 'bg-gray-200');
                 };
-                
                 // Set source to trigger load/error handlers
                 modalImage.src = initialSrc;
             }
         }
         
-        // **الوظيفة المعدلة للتنقل بين المنتجات المتاحة فقط**
+        /**
+         * التنقل بين المنتجات المعروضة حاليًا في القائمة المفلترة
+         * @param {string} direction - 'next-card' أو 'prev-card'
+         */
         async function navigateModal(direction) {
-            let currentIndex = parseInt(modalMetadata.dataset.cardIndex);
+            let currentFilteredIndex = parseInt(modalMetadata.dataset.cardIndex);
+            const indices = JSON.parse(modalMetadata.dataset.filteredIndices || '[]');
+            const totalFilteredProducts = indices.length;
             
-            if (isNaN(currentIndex) || currentIndex === -1) {
+            if (isNaN(currentFilteredIndex) || totalFilteredProducts <= 1) {
                 return;
             }
 
-            const totalProducts = products.length;
-            let newIndex = currentIndex;
-            let attempts = 0; // لضمان عدم الدخول في حلقة لا نهائية
+            let newFilteredIndex = currentFilteredIndex;
 
+            // Find the next/previous product *within the filtered list*
             do {
                 if (direction === 'next-card') {
-                    newIndex = (newIndex + 1) % totalProducts;
+                    newFilteredIndex = (newFilteredIndex + 1) % totalFilteredProducts;
                 } else if (direction === 'prev-card') {
-                    newIndex = (newIndex - 1 + totalProducts) % totalProducts;
+                    newFilteredIndex = (newFilteredIndex - 1 + totalFilteredProducts) % totalFilteredProducts;
                 }
                 
-                // إذا عدنا إلى النقطة التي بدأنا منها، نوقف البحث لمنع الحلقة اللانهائية
-                if (newIndex === currentIndex && attempts > 0) {
-                    console.log("No other available product found.");
+                // If we wrap around and hit the same index, we stop (safety check)
+                if (newFilteredIndex === currentFilteredIndex) {
                     return; 
                 }
                 
-                // تحقق مما إذا كان المنتج الجديد متاحاً للعرض
-                const product = products[newIndex];
+                // Get the actual product data using the original index
+                const originalIndex = indices[newFilteredIndex];
+                const product = products[originalIndex];
+
+                // Check availability (robustness check)
                 if (await isProductImageAvailable(product)) {
-                    // إذا كان متاحاً، اعرضه واخرج من الحلقة
-                    updateModalContent(newIndex);
+                    updateModalContent(newFilteredIndex); // Pass the new filtered index
                     return;
                 }
-
-                attempts++;
-            } while (newIndex !== currentIndex);
-
-            // إذا خرجنا من الحلقة ولم يتم العثور على أي منتج آخر متاح (وهذا يجب ألا يحدث بوجود شرط التوقف)
-            console.log("Navigation ended. No other available product found.");
+                
+            } while (newFilteredIndex !== currentFilteredIndex);
         }
         
         // Event listeners for modal navigation
@@ -733,7 +821,6 @@
 
 
         // --- Color Toggle Logic for Hoodie Cards (INTERNAL) ---
-        // Remains to handle the dot clicks/swipes on the product card itself.
 
         function toggleHoodieColor(card, color) {
             const imgElement = card.querySelector('.product-image');
@@ -829,24 +916,19 @@
             if (dotBlack) dotBlack.onclick = (e) => { e.stopPropagation(); toggleHoodieColor(card, 'black'); };
             if (dotWhite) dotWhite.onclick = (e) => { e.stopPropagation(); toggleHoodieColor(card, 'white'); };
 
-            // Modal click listener
+            // Modal click listener (FIXED)
             imageContainer.addEventListener('click', (e) => {
-                // Open modal using the current displayed image
                 const imgElement = card.querySelector('.product-image');
                 const overlay = card.querySelector('.unavailable-overlay');
                 
-                // Find the index of the product being clicked
-                const cardElements = Array.from(document.querySelectorAll('.product-card'));
-                const cardIndex = cardElements.indexOf(card);
-                const product = products[cardIndex];
-
+                // CRITICAL FIX: Find the index of the clicked card *within the currently displayed (filtered) list*
+                const filteredIndex = currentlyDisplayedCards.indexOf(card);
+                
                 if (imgElement.style.display === 'none' && overlay && !overlay.classList.contains('hidden')) {
-                     // If 'غير متاح' is showing, do not open the modal
                      console.log("Image not available for magnification.");
                 } else {
-                    // Open Modal and display the current card's image
-                    // The Modal's updateModalContent now handles the image priority check for the new card being opened
-                    updateModalContent(cardIndex);
+                    // Pass the filtered index (position in the current grid) to the modal update function
+                    updateModalContent(filteredIndex);
                     
                     imageModal.classList.remove('hidden');
                     imageModal.classList.add('flex');
@@ -855,24 +937,97 @@
         }
         
 
-        // --- Core Rendering Functions ---
+        // --- GENDER FILTER LOGIC ---
+        
+        function renderGenderFilters() {
+            const genders = ['الكل', 'BOYS', 'GIRLS']; 
+            genderFiltersContainer.innerHTML = '';
+
+            if (activeFilter === 'هودي') {
+                genderFiltersContainer.style.display = 'flex';
+
+                genders.forEach(gender => {
+                    const button = document.createElement('button');
+                    const buttonText = (gender === 'BOYS' || gender === 'GIRLS') ? gender : 'الكل';
+                    button.textContent = buttonText;
+                    
+                    button.dataset.filterValue = gender; 
+
+                    const isActive = (gender === activeGenderFilter);
+
+                    button.className = `px-4 py-2 rounded-lg font-bold text-lg transition-colors duration-300 border-2 border-red-600 ${
+                        isActive
+                        ? 'active-filter'
+                        : 'bg-white dark:bg-gray-700 text-red-600 dark:text-red-500 hover:bg-red-100 dark:hover:bg-gray-600'
+                    }`;
+                    
+                    button.addEventListener('click', () => {
+                        activeGenderFilter = gender;
+                        renderProducts(activeFilter);
+                        updateActiveGenderButton();
+                    });
+                    genderFiltersContainer.appendChild(button);
+                });
+            } else {
+                genderFiltersContainer.style.display = 'none';
+                activeGenderFilter = 'الكل'; 
+            }
+        }
+
+        function updateActiveGenderButton() {
+            const buttons = genderFiltersContainer.querySelectorAll('button');
+            buttons.forEach(button => {
+                if(button.dataset.filterValue === activeGenderFilter) {
+                    button.classList.add('active-filter');
+                    button.classList.remove('bg-white', 'dark:bg-gray-700', 'text-red-600', 'dark:text-red-500', 'hover:bg-red-100', 'dark:hover:bg-gray-600');
+                } else {
+                    button.classList.remove('active-filter');
+                    button.className = 'px-4 py-2 rounded-lg font-bold text-lg transition-colors duration-300 border-2 border-red-600 bg-white dark:bg-gray-700 text-red-600 dark:text-red-500 hover:bg-red-100 dark:hover:bg-gray-600';
+                }
+            });
+        }
+        
+        // --- Core Rendering Functions (MODIFIED FOR FILTERED NAVIGATION SUPPORT) ---
 
         // Render product cards
-        function renderProducts(filter = 'الكل') {
+        function renderProducts(filter) {
             productGrid.innerHTML = '';
-            // Get all products that pass the filter
             const allProductElements = [];
+            const filteredIndices = []; // Array to store ORIGINAL indices of displayed products
+            
+            renderGenderFilters();
 
             products.forEach((product, index) => {
-                 if (filter !== 'الكل' && product.category !== filter) return;
-                 
-                 const description = categoryDescriptions[product.category] || '';
-                 let cardHTML;
+                // 1. Category Filter Check
+                if (product.category !== filter) return;
+                
+                // 2. Gender Filter Check
+                if (product.category === 'هودي' && activeGenderFilter !== 'الكل') {
+                    
+                    const isGirlProduct = product.gender === 'GIRLS';
+                    const isBoyProduct = product.gender === undefined; 
 
-                 if (product.category === 'جاكيت' || product.category === 'توتي باجز') {
+                    if (activeGenderFilter === 'BOYS') {
+                        // FIX: Ensure that the original products without 'gender' are displayed for BOYS filter.
+                        if (isGirlProduct) return;
+                        // If it's a hoodie AND not a GIRLS product, it passes the BOYS filter.
+                    } else if (activeGenderFilter === 'GIRLS') {
+                        // FIX: Ensure only products explicitly marked 'GIRLS' are displayed.
+                        if (isBoyProduct) return;
+                        if (!isGirlProduct) return;
+                    } 
+                } 
+                
+                // If the product passes all filters, we include it and track its original index
+                filteredIndices.push(index);
+
+                const description = categoryDescriptions[product.category] || '';
+                let cardHTML;
+
+                if (product.category === 'جاكيت' || product.category === 'توتي باجز') {
                     // Render Coming Soon Card (Text Only)
                     cardHTML = `
-                    <div class="product-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl flex flex-col h-full" data-index="${index}">
+                    <div class="product-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl flex flex-col h-full" data-index="${index}" data-original-index="${index}">
                         <div class="w-full h-64 bg-gray-600 dark:bg-gray-700 flex items-center justify-center">
                             <h3 class="text-3xl font-extrabold text-white tracking-widest">${product.name.toUpperCase()}</h3>
                         </div>
@@ -885,25 +1040,24 @@
                             <div class="text-2xl font-bold text-gray-400 dark:text-gray-500 mt-4">${product.price}</div>
                         </div>
                     </div>`;
-                 } else if (product.category === 'هودي') {
+                } else if (product.category === 'هودي') {
                     // Render Hoodie Card (Two colors with dots/swipe)
-                    // We start by setting black as the image src, but the initialization logic (initializeHoodieCard)
-                    // will correct this if the black image fails.
-                    const initialImageUrl = product.blackImageUrl;
+                    const initialImageUrl = product.blackImageUrl; 
 
                     cardHTML = `
                     <div class="product-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl flex flex-col" 
                         data-black-url="${product.blackImageUrl}"
                         data-white-url="${product.whiteImageUrl}"
                         data-current-color="black"
-                        data-index="${index}">
+                        data-index="${index}"
+                        data-original-index="${index}">
                         
                         <div class="image-swipe-area w-full h-64 bg-gray-200 dark:bg-gray-700 cursor-pointer select-none relative">
                             <!-- Image element. src is set here, but the actual display is managed by JS priority check -->
                             <img src="${initialImageUrl}" alt="${product.name}" class="product-image w-full h-full object-cover transition-opacity duration-300">
                             
                             <!-- Overlay for 'Not Available' -->
-                            <div class="unavailable-overlay hidden absolute inset-0 w-full h-full flex items-center justify-center bg-black z-10 transition-opacity duration-300">
+                            <div class="unavailable-overlay hidden absolute inset-0 w-full h-64 flex items-center justify-center bg-black z-10 transition-opacity duration-300">
                                 <span class="text-white text-2xl font-bold p-4 rounded-lg bg-red-600 shadow-lg">غير متاح</span>
                             </div>
 
@@ -923,13 +1077,13 @@
                             <div class="text-2xl font-bold text-gray-900 dark:text-white mt-4">${product.price}</div>
                         </div>
                     </div>`;
-                 } else {
+                } else {
                     // Render standard cards (Mugs, etc. - single image)
                     const imageUrl = product.imageUrl || generatePlaceholder(product.name, 'black');
                     cardHTML = `
-                    <div class="product-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer flex flex-col" data-image-url="${imageUrl}" data-index="${index}">
+                    <div class="product-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer flex flex-col" data-image-url="${imageUrl}" data-index="${index}" data-original-index="${index}">
                         <div class="w-full h-64 bg-gray-200 dark:bg-gray-700 pointer-events-none">
-                            <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-full object-cover" onerror="this.src='${generatePlaceholder(product.name, 'black')}'">
+                            <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-64 object-cover" onerror="this.src='${generatePlaceholder(product.name, 'black')}'">
                         </div>
                         <div class="p-5 text-center flex-grow flex flex-col">
                             <div class="flex-grow">
@@ -940,29 +1094,30 @@
                             <div class="text-2xl font-bold text-gray-900 dark:text-white mt-4">${product.price}</div>
                         </div>
                     </div>`;
-                 }
+                }
 
-                // Push the HTML to be added to the grid later
                 allProductElements.push(cardHTML);
             });
             
             // Render all filtered products
             productGrid.innerHTML = allProductElements.join('');
 
+            // CRITICAL STEP: Store the current list of displayed product indices and card elements
+            modalMetadata.dataset.filteredIndices = JSON.stringify(filteredIndices);
+            currentlyDisplayedCards = Array.from(productGrid.querySelectorAll('.product-card'));
+            
             // Attach event listeners after rendering
-            document.querySelectorAll('.product-card').forEach(card => {
-                const cardIndex = parseInt(card.dataset.index);
-                const product = products[cardIndex];
+            currentlyDisplayedCards.forEach((card, filteredIndex) => { // filteredIndex is the position in the current visible list
+                const originalIndex = parseInt(card.dataset.index);
+                const product = products[originalIndex];
 
-                // Check if it's a hoodie card based on the presence of color URLs
                 if (product && product.isTwoColor) {
-                    // *** MODIFIED LOGIC HERE: Use the new priority function ***
                     initializeHoodieCard(card);
                 } else {
                     // Setup standard modal click listener for other cards (Mugs, etc.)
                     card.addEventListener('click', () => {
-                        // Update Modal Content & open modal
-                        updateModalContent(cardIndex);
+                        // Pass the filtered index (position in the current grid)
+                        updateModalContent(filteredIndex);
                         
                         imageModal.classList.remove('hidden');
                         imageModal.classList.add('flex');
@@ -971,9 +1126,11 @@
             });
         }
         
-        // Render category filter buttons (Unchanged)
+        // Render category filter buttons (Excluding 'الكل' and setting default active filter)
         function renderCategoryFilters() {
-            const categories = ['الكل', ...new Set(products.map(p => p.category))];
+            // استخراج الفئات باستثناء 'الكل'
+            const categories = [...new Set(products.map(p => p.category))].filter(cat => cat !== 'الكل');
+            
             categoryFiltersContainer.innerHTML = '';
             categories.forEach(category => {
                 const button = document.createElement('button');
@@ -985,7 +1142,18 @@
                 }`;
                 
                 button.addEventListener('click', () => {
+                    const previousFilter = activeFilter;
                     activeFilter = category;
+                    
+                    // إذا تم تغيير الفئة إلى "هودي" أو العودة منها
+                    if (previousFilter !== 'هودي' && activeFilter === 'هودي') {
+                        // إعادة تعيين فلتر الجنس إلى "الكل" عند الدخول لفئة الهودي
+                        activeGenderFilter = 'الكل';
+                    } else if (activeFilter !== 'هودي') {
+                        // إخفاء فلاتر الجنس وإعادة تعيينها عند الخروج من فئة الهودي
+                        activeGenderFilter = 'الكل'; 
+                    }
+
                     renderProducts(activeFilter);
                     updateActiveButton();
                 });
@@ -1024,9 +1192,15 @@
 
         // Initialize everything on page load
         window.onload = () => {
+            // تحديد الفلتر الافتراضي كأول فئة يتم إيجادها (هودي)
+            const initialCategories = [...new Set(products.map(p => p.category))].filter(cat => cat !== 'الكل' && cat !== 'جاكيت' && cat !== 'توتي باجز');
+            activeFilter = initialCategories[0] || 'هودي'; 
+
             renderSlideshow();
             renderCategoryFilters();
-            renderProducts();
+            
+            // يتم عرض المنتجات بناءً على الفلتر الافتراضي الجديد (هودي)
+            renderProducts(activeFilter); 
         };
     </script>
 </body>
