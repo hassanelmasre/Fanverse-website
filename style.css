@@ -1,0 +1,76 @@
+body {
+    font-family: 'Cairo', sans-serif;
+}
+.active-filter {
+    background-color: #DC2626 !important; /* red-600 */
+    color: white !important;
+    border-color: #DC2626 !important;
+}
+/* Styling for the slideshow */
+.slide {
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    display: none;
+    transition: opacity 0.5s ease-in-out;
+    position: relative;
+}
+.slide.active {
+    display: block;
+}
+/* Custom styling for color dots */
+.color-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+}
+.color-dot.active {
+    transform: scale(1.2);
+    border-color: #DC2626; /* Red border for active dot */
+}
+/* Modal navigation arrows styling */
+.modal-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(220, 38, 38, 0.7); /* red-600 with transparency */
+    color: white;
+    font-size: 2rem;
+    width: 40px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    user-select: none;
+    transition: background-color 0.2s;
+}
+.modal-arrow:hover {
+    background-color: rgba(220, 38, 38, 1);
+}
+#prevImage {
+    right: 0; /* Arrow on the right in RTL (moves to PREVIOUS CARD) */
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+#nextImage {
+    left: 0; /* Arrow on the left in RTL (moves to NEXT CARD) */
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+/* Ensure image container is relative for arrows */
+#imageModalContent {
+    position: relative;
+}
+/* New CSS for clearer scaled images */
+.product-image {
+    /* Force GPU acceleration for sharper resizing */
+    transform: translateZ(0); 
+    /* Ensure maximum clarity for scaled images */
+    image-rendering: -webkit-optimize-contrast; 
+    image-rendering: crisp-edges;
+}
