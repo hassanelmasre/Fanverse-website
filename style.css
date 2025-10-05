@@ -74,3 +74,20 @@ body {
     image-rendering: -webkit-optimize-contrast; 
     image-rendering: crisp-edges;
 }
+.whatsapp-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* المسافة بين النص والأيقونة */
+    background-color: #25D366;
+    padding: 0.75rem 1rem; /* المسافة الداخلية للزرار */
+    direction: rtl; /* عشان الترتيب يبقى من اليمين للشمال */
+}
+
+.whatsapp-btn .text {
+    font-weight: 600; /* بتخلي الخط سميك */
+    white-space: nowrap; /* بتمنع النص من إنه ينزل سطر جديد */
+}
+
+.whatsapp-btn .icon {
+    font-size: 1.5rem; /* حجم الأيقونة */
+}

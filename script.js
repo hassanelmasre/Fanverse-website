@@ -595,9 +595,11 @@ function setupColorToggleInteractions(card) {
         const endX = e.changedTouches[0].clientX;
         const diffX = endX - startX;
         if (Math.abs(diffX) > 40) {
-            const currentColor = card.dataset.currentColor;
-            const newColor = currentColor === 'black' ? 'white' : 'black';
-            toggleHoodieColor(card, newColor);
+            if (diffX > 0) {
+                navigateModal('prev-card');
+            } else {
+                navigateModal('next-card');
+            }
         }
     });
 
@@ -697,6 +699,9 @@ function renderProducts(filter) {
         const description = categoryDescriptions[product.category] || '';
         let cardHTML;
 
+        // الرابط الخاص بالواتساب مع رسالة مخصصة
+        const whatsappLink = `https://wa.me/201031081308?text=مرحباً، أود الاستفسار عن منتج ${encodeURIComponent(product.name)} - السعر: ${encodeURIComponent(product.price)}`;
+
         if (product.category === 'جاكيت' || product.category === 'توتي باجز') {
             cardHTML = `
             <div class="product-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl flex flex-col h-full" data-index="${index}" data-original-index="${index}">
@@ -710,6 +715,10 @@ function renderProducts(filter) {
                         <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed min-h-[60px]">${description}</p>
                     </div>
                     <div class="text-2xl font-bold text-gray-400 dark:text-gray-500 mt-4">${product.price}</div>
+                    <a href="${whatsappLink}" class="whatsapp-card-btn" target="_blank">
+                        <span>اطلب الآن</span>
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
                 </div>
             </div>`;
         } else if (product.category === 'هودي') {
@@ -729,7 +738,6 @@ function renderProducts(filter) {
                     <div class="unavailable-overlay hidden absolute inset-0 w-full h-64 flex items-center justify-center bg-black z-10 transition-opacity duration-300">
                         <span class="text-white text-2xl font-bold p-4 rounded-lg bg-red-600 shadow-lg">غير متاح</span>
                     </div>
-
                 </div>
 
                 <div class="flex justify-center gap-3 py-2">
@@ -743,7 +751,13 @@ function renderProducts(filter) {
                         <p class="text-sm text-red-600 dark:text-red-500 mb-2 font-semibold">${product.category}</p>
                         <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed min-h-[60px]">${description}</p>
                     </div>
-                    <div class="text-2xl font-bold text-gray-900 dark:text-white mt-4">${product.price}</div>
+                    <div class="flex items-center justify-between mt-4">
+                        <div class="text-2xl font-bold text-gray-900 dark:text-white">${product.price}</div>
+                        <a href="${whatsappLink}" class="whatsapp-card-btn" target="_blank" onclick="event.stopPropagation();">
+                            <span>اطلب الآن</span>
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
                 </div>
             </div>`;
         } else {
@@ -759,7 +773,13 @@ function renderProducts(filter) {
                         <p class="text-sm text-red-600 dark:text-red-500 mb-2 font-semibold">${product.category}</p>
                         <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed min-h-[60px]">${description}</p>
                     </div>
-                    <div class="text-2xl font-bold text-gray-900 dark:text-white mt-4">${product.price}</div>
+                    <div class="flex items-center justify-between mt-4">
+                        <div class="text-2xl font-bold text-gray-900 dark:text-white">${product.price}</div>
+                        <a href="${whatsappLink}" class="whatsapp-card-btn" target="_blank" onclick="event.stopPropagation();">
+                            <span>اطلب الآن</span>
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
                 </div>
             </div>`;
         }

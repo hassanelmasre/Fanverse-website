@@ -9,15 +9,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
 
-    <!-- Header -->
-    <header class="bg-white dark:bg-gray-800 shadow-lg sticky top-0 z-20">
+        <header class="bg-white dark:bg-gray-800 shadow-lg sticky top-0 z-20">
         <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
             <a href="#" class="flex items-center gap-3">
-                <!-- SVG Logo -->
-                <svg class="h-12 w-12 sm:h-14 sm:w-14" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="h-12 w-12 sm:h-14 sm:w-14" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="50" cy="50" r="48" fill="white"></circle>
                     <circle cx="50" cy="50" r="48" fill="none" stroke="#DC2626" stroke-width="3"></circle>
                     <circle cx="50" cy="50" r="42" fill="none" stroke="#DC2626" stroke-width="1"></circle>
@@ -29,35 +28,26 @@
                 <span class="text-2xl sm:text-3xl font-extrabold text-gray-800 dark:text-white tracking-tight">FanVerse</span>
             </a>
             <nav>
-                <!-- Category filter buttons will be rendered here by JS (Now excluding 'الكل') -->
-                <div id="category-filters" class="flex gap-2 flex-wrap justify-center"></div>
+                                <div id="category-filters" class="flex gap-2 flex-wrap justify-center"></div>
             </nav>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 sm:px-6 py-10">
+        <main class="container mx-auto px-4 sm:px-6 py-10">
 
-        <!-- Slideshow (Hero Section) -->
-        <section id="hero-slideshow" class="mb-12 rounded-xl overflow-hidden shadow-2xl relative w-full h-64 md:h-96 bg-white dark:bg-gray-700" data-autoplay-interval="4000">
+                <section id="hero-slideshow" class="mb-12 rounded-xl overflow-hidden shadow-2xl relative w-full h-64 md:h-96 bg-white dark:bg-gray-700" data-autoplay-interval="4000">
             <div id="slides-container" class="h-full relative overflow-hidden"></div>
-            <!-- Slide Dots Indicator -->
-            <div id="slideshow-dots" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2"></div>
+                        <div id="slideshow-dots" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2"></div>
         </section>
 
-        <!-- Products Section -->
-        <section id="products">
+                <section id="products">
             <h2 class="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">منتجاتنا</h2>
             
-            <!-- GENDER FILTERS CONTAINER - Hidden by default, appears only when 'هودي' is selected -->
-            <div id="gender-filters" class="flex justify-center gap-4 mb-8" style="display: none;"></div>
-            <!-- END GENDER FILTERS CONTAINER -->
-
-            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"></div>
+                        <div id="gender-filters" class="flex justify-center gap-4 mb-8" style="display: none;"></div>
+                        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"></div>
         </section>
 
-        <!-- About Us Section -->
-        <section id="about" class="mt-20 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl">
+                <section id="about" class="mt-20 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl">
             <h2 class="text-3xl font-bold text-center mb-6 text-red-600 dark:text-red-500"> FanVerse </h2>
             <p class="text-center max-w-3xl mx-auto mb-8 text-gray-600 dark:text-gray-300">
                 FanVerse مش مجرد براند، دي مساحة تعبر بيها عن نفسك.
@@ -82,28 +72,31 @@
 
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 dark:bg-black mt-16 py-6">
+        <footer class="bg-gray-800 dark:bg-black mt-16 py-6">
         <div class="container mx-auto px-6 text-center text-gray-400 dark:text-gray-500">
             <p>© 2025 FanVerse. كل الحقوق محفوظة.</p>
         </div>
     </footer>
 
-    <!-- Image Modal -->
-    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 hidden items-center justify-center z-50 p-4 transition-opacity duration-300">
+        <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 hidden items-center justify-center z-50 p-4 transition-opacity duration-300">
         <div id="imageModalContent" class="relative bg-white dark:bg-gray-800 p-4 rounded-lg max-w-3xl max-h-full shadow-2xl">
             <button id="closeModal" class="absolute -top-3 -right-3 bg-red-600 text-white rounded-full h-8 w-8 flex items-center justify-center text-xl font-bold z-10 leading-none">×</button>
             <img id="modalImage" src="" alt="عرض مكبر للمنتج" class="max-w-full max-h-[85vh] object-contain rounded-md">
 
-            <!-- Modal Navigation Arrows -->
-            <div id="prevImage" class="modal-arrow" style="border-radius: 0.5rem 0 0 0.5rem;">❯</div>
+                        <div id="prevImage" class="modal-arrow" style="border-radius: 0.5rem 0 0 0.5rem;">❯</div>
             <div id="nextImage" class="modal-arrow" style="border-radius: 0 0.5rem 0.5rem 0;">❮</div>
             
-            <!-- Metadata (stores info about the current image) -->
-            <div id="modalMetadata" data-is-two-color="false" data-card-index="-1" data-current-color="black" data-filtered-indices="[]" class="hidden"></div>
+                        <div id="modalMetadata" data-is-two-color="false" data-card-index="-1" data-current-color="black" data-filtered-indices="[]" class="hidden"></div>
         </div>
     </div>
 
+    <a href="https://wa.me/201031081308"
+      class="whatsapp-btn fixed bottom-4 right-4 text-white rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl hover:shadow-[#25D366]/50 z-50"
+      target="_blank"
+    >
+      <span class="text">اطلب الآن</span>
+      <i class="fab fa-whatsapp text-2xl icon"></i>
+    </a>
     <script src="script.js"></script>
 
 </body>
