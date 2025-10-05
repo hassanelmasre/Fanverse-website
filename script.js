@@ -7,181 +7,181 @@ const generatePlaceholder = (text, color = 'black', width = 600, height = 600) =
 
 // --- Slideshow Configuration ---
 const SLIDESHOW_IMAGES = [
-    'IMGES/ad_2.png',
+    'IMGES/ad_2.webp',
 ];
 
 // --- Product Data ---
 const products = [
     {
         name: 'هودي space 1', category: 'هودي', price: '650 L.E', isTwoColor: true,
-        blackImageUrl: 'IMGES/BLACK/2.png',
-        whiteImageUrl: 'IMGES/WHITE/2.png',
+        blackImageUrl: 'IMGES/BLACK/2.webp',
+        whiteImageUrl: 'IMGES/WHITE/2.webp',
     },
     {
         name: 'هودي space 2', category: 'هودي', price: '650 L.E', isTwoColor: true,
-        blackImageUrl: 'IMGES/BLACK/23.png',
-        whiteImageUrl: 'IMGES/WHITE/23.png',
+        blackImageUrl: 'IMGES/BLACK/23.webp',
+        whiteImageUrl: 'IMGES/WHITE/23.webp',
     },
     {
         name: 'هودي RABBIT', category: 'هودي', price: '650 L.E', isTwoColor: true,
-        blackImageUrl: 'IMGES/BLACK/1.png',
-        whiteImageUrl: 'IMGES/WHITE/1.png',
+        blackImageUrl: 'IMGES/BLACK/1.webp',
+        whiteImageUrl: 'IMGES/WHITE/1.webp',
     },
     {
         name: 'هودي GOOD VIBES', category: 'هودي', price: '650 L.E', isTwoColor: true,
-        blackImageUrl: 'IMGES/BLACK/36.png',
-        whiteImageUrl: 'IMGES/WHITE/36.png',
+        blackImageUrl: 'IMGES/BLACK/36.webp',
+        whiteImageUrl: 'IMGES/WHITE/36.webp',
     },
     {
         name: 'هودي cyborg samurai', category: 'هودي', price: '650 L.E', isTwoColor: true,
-        blackImageUrl: 'IMGES/BLACK/3.png',
-        whiteImageUrl: 'IMGES/WHITE/3.png',
+        blackImageUrl: 'IMGES/BLACK/3.webp',
+        whiteImageUrl: 'IMGES/WHITE/3.webp',
     },
     {
         name: 'هودي RAVEN', category: 'هودي', price: '650 L.E', isTwoColor: true,
-        blackImageUrl: 'IMGES/BLACK/8.png',
-        whiteImageUrl: 'IMGES/WHITE/8.png',
+        blackImageUrl: 'IMGES/BLACK/8.webp',
+        whiteImageUrl: 'IMGES/WHITE/8.webp',
     },
     {
         name: 'هودي YOU', category: 'هودي', price: '650 L.E', isTwoColor: true,
-        blackImageUrl: 'IMGES/BLACK/5.png',
-        whiteImageUrl: 'IMGES/WHITE/5.png',
+        blackImageUrl: 'IMGES/BLACK/5.webp',
+        whiteImageUrl: 'IMGES/WHITE/5.webp',
     },
     {
         name: 'هودي OUT OF BOX', category: 'هودي', price: '650 L.E', isTwoColor: true,
-        blackImageUrl: 'IMGES/BLACK/6.png',
-        whiteImageUrl: 'IMGES/WHITE/6.png',
+        blackImageUrl: 'IMGES/BLACK/6.webp',
+        whiteImageUrl: 'IMGES/WHITE/6.webp',
     },
     {
         name: 'هودي Black Clover', category: 'هودي', price: '650 L.E', isTwoColor: true,
-        blackImageUrl: 'IMGES/BLACK/7.png',
-        whiteImageUrl: 'IMGES/WHITE/7.png',
+        blackImageUrl: 'IMGES/BLACK/7.webp',
+        whiteImageUrl: 'IMGES/WHITE/7.webp',
     },
     {
         name: 'هودي samurai', category: 'هودي', price: '650 L.E', isTwoColor: true,
-        blackImageUrl: 'IMGES/BLACK/9.png',
-        whiteImageUrl: 'IMGES/WHITE/9.png',
+        blackImageUrl: 'IMGES/BLACK/9.webp',
+        whiteImageUrl: 'IMGES/WHITE/9.webp',
     },
     {
         name: 'هودي ANGEL', category: 'هودي', price: '650 L.E', isTwoColor: true,
-        blackImageUrl: 'IMGES/BLACK/10.png',
-        whiteImageUrl: 'IMGES/WHITE/10.png',
+        blackImageUrl: 'IMGES/BLACK/10.webp',
+        whiteImageUrl: 'IMGES/WHITE/10.webp',
     },
     {
         name: 'هودي Yuji Itadori', category: 'هودي', price: '650 L.E', isTwoColor: true,
-        blackImageUrl: 'IMGES/BLACK/4.png',
-        whiteImageUrl: 'IMGES/WHITE/4.png',
+        blackImageUrl: 'IMGES/BLACK/4.webp',
+        whiteImageUrl: 'IMGES/WHITE/4.webp',
     },
     {
         name: 'هودي breaking bad', category: 'هودي', price: '650 L.E', isTwoColor: true,
-        blackImageUrl: 'IMGES/BLACK/11.png',
-        whiteImageUrl: 'IMGES/WHITE/11.png',
+        blackImageUrl: 'IMGES/BLACK/11.webp',
+        whiteImageUrl: 'IMGES/WHITE/11.webp',
     },
     {
         name: 'هودي ZORO', category: 'هودي', price: '650 L.E', isTwoColor: true,
-        blackImageUrl: 'IMGES/BLACK/12.png',
-        whiteImageUrl: 'IMGES/WHITE/12.png',
+        blackImageUrl: 'IMGES/BLACK/12.webp',
+        whiteImageUrl: 'IMGES/WHITE/12.webp',
     },
     {
         name: 'هودي Pharaon', category: 'هودي', price: '650 L.E', isTwoColor: true,
-        blackImageUrl: 'IMGES/BLACK/31.png',
-        whiteImageUrl: 'IMGES/WHITE/24.png',
+        blackImageUrl: 'IMGES/BLACK/31.webp',
+        whiteImageUrl: 'IMGES/WHITE/24.webp',
     },
     {
         name: 'هودي LOFY', category: 'هودي', price: '650 L.E', isTwoColor: true,
-        blackImageUrl: 'IMGES/BLACK/16.png',
-        whiteImageUrl: 'IMGES/WHITE/16.png',
+        blackImageUrl: 'IMGES/BLACK/16.webp',
+        whiteImageUrl: 'IMGES/WHITE/16.webp',
     },
-    { name: 'هودي تصميم رقم 17', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/17.png', whiteImageUrl: 'IMGES/WHITE/17.png' },
-    { name: 'هودي تصميم رقم 18', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/18.png', whiteImageUrl: 'IMGES/WHITE/18.png' },
-    { name: 'هودي تصميم رقم 19', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/19.png', whiteImageUrl: 'IMGES/WHITE/19.png' },
-    { name: 'هودي تصميم رقم 20', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/20.png', whiteImageUrl: 'IMGES/WHITE/20.png' },
-    { name: 'هودي تصميم رقم 21', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/21.png', whiteImageUrl: 'IMGES/WHITE/21.png' },
-    { name: 'هودي تصميم رقم 22', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/22.png', whiteImageUrl: 'IMGES/WHITE/22.png' },
-    { name: 'هودي تصميم رقم 23', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/23.png', whiteImageUrl: 'IMGES/WHITE/23.png' },
-    { name: 'هودي تصميم رقم 24', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/24.png', whiteImageUrl: 'IMGES/WHITE/24.png' },
-    { name: 'هودي تصميم رقم 25', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/25.png', whiteImageUrl: 'IMGES/WHITE/25.png' },
-    { name: 'هودي تصميم رقم 26', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/26.png', whiteImageUrl: 'IMGES/WHITE/26.png' },
-    { name: 'هودي تصميم رقم 27', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/27.png', whiteImageUrl: 'IMGES/WHITE/27.png' },
-    { name: 'هودي تصميم رقم 28', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/28.png', whiteImageUrl: 'IMGES/WHITE/28.png' },
-    { name: 'هودي تصميم رقم 29', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/29.png', whiteImageUrl: 'IMGES/WHITE/29.png' },
-    { name: 'هودي تصميم رقم 30', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/30.png', whiteImageUrl: 'IMGES/WHITE/30.png' },
-    { name: 'هودي تصميم رقم 31', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/31.png', whiteImageUrl: 'IMGES/WHITE/31.png' },
-    { name: 'هودي تصميم رقم 32', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/32.png', whiteImageUrl: 'IMGES/WHITE/32.png' },
-    { name: 'هودي تصميم رقم 33', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/33.png', whiteImageUrl: 'IMGES/WHITE/33.png' },
-    { name: 'هودي تصميم رقم 34', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/34.png', whiteImageUrl: 'IMGES/WHITE/34.png' },
-    { name: 'هودي تصميم رقم 35', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/35.png', whiteImageUrl: 'IMGES/WHITE/35.png' },
-    { name: 'هودي تصميم رقم 36', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/36.png', whiteImageUrl: 'IMGES/WHITE/36.png' },
-    { name: 'هودي تصميم رقم 37', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/37.png', whiteImageUrl: 'IMGES/WHITE/37.png' },
-    { name: 'هودي تصميم رقم 38', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/38.png', whiteImageUrl: 'IMGES/WHITE/38.png' },
-    { name: 'هودي تصميم رقم 39', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/39.png', whiteImageUrl: 'IMGES/WHITE/39.png' },
-    { name: 'هودي تصميم رقم 40', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/40.png', whiteImageUrl: 'IMGES/WHITE/40.png' },
-    { name: 'هودي تصميم رقم 41', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/41.png', whiteImageUrl: 'IMGES/WHITE/41.png' },
-    { name: 'هودي تصميم رقم 42', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/42.png', whiteImageUrl: 'IMGES/WHITE/42.png' },
-    { name: 'هودي تصميم رقم 43', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/43.png', whiteImageUrl: 'IMGES/WHITE/43.png' },
-    { name: 'هودي تصميم رقم 44', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/44.png', whiteImageUrl: 'IMGES/WHITE/44.png' },
-    { name: 'هودي تصميم رقم 45', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/45.png', whiteImageUrl: 'IMGES/WHITE/45.png' },
-    { name: 'هودي تصميم رقم 46', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/46.png', whiteImageUrl: 'IMGES/WHITE/46.png' },
-    { name: 'هودي تصميم رقم 47', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/47.png', whiteImageUrl: 'IMGES/WHITE/47.png' },
-    { name: 'هودي تصميم رقم 48', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/48.png', whiteImageUrl: 'IMGES/WHITE/48.png' },
-    { name: 'هودي تصميم رقم 50', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/50.png', whiteImageUrl: 'IMGES/WHITE/50.png' },
-    { name: 'هودي تصميم رقم 60', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/51.png', whiteImageUrl: 'IMGES/WHITE/51.png' },
-    { name: 'هودي تصميم رقم 61', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/52.png', whiteImageUrl: 'IMGES/WHITE/52.png' },
-    { name: 'هودي تصميم رقم 62', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/53.png', whiteImageUrl: 'IMGES/WHITE/53.png' },
-    { name: 'هودي تصميم رقم 63', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/54.png', whiteImageUrl: 'IMGES/WHITE/54.png' },
-    { name: 'هودي تصميم رقم 64', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/55.png', whiteImageUrl: 'IMGES/WHITE/55.png' },
+    { name: 'هودي تصميم رقم 17', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/17.webp', whiteImageUrl: 'IMGES/WHITE/17.webp' },
+    { name: 'هودي تصميم رقم 18', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/18.webp', whiteImageUrl: 'IMGES/WHITE/18.webp' },
+    { name: 'هودي تصميم رقم 19', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/19.webp', whiteImageUrl: 'IMGES/WHITE/19.webp' },
+    { name: 'هودي تصميم رقم 20', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/20.webp', whiteImageUrl: 'IMGES/WHITE/20.webp' },
+    { name: 'هودي تصميم رقم 21', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/21.webp', whiteImageUrl: 'IMGES/WHITE/21.webp' },
+    { name: 'هودي تصميم رقم 22', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/22.webp', whiteImageUrl: 'IMGES/WHITE/22.webp' },
+    { name: 'هودي تصميم رقم 23', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/23.webp', whiteImageUrl: 'IMGES/WHITE/23.webp' },
+    { name: 'هودي تصميم رقم 24', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/24.webp', whiteImageUrl: 'IMGES/WHITE/24.webp' },
+    { name: 'هودي تصميم رقم 25', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/25.webp', whiteImageUrl: 'IMGES/WHITE/25.webp' },
+    { name: 'هودي تصميم رقم 26', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/26.webp', whiteImageUrl: 'IMGES/WHITE/26.webp' },
+    { name: 'هودي تصميم رقم 27', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/27.webp', whiteImageUrl: 'IMGES/WHITE/27.webp' },
+    { name: 'هودي تصميم رقم 28', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/28.webp', whiteImageUrl: 'IMGES/WHITE/28.webp' },
+    { name: 'هودي تصميم رقم 29', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/29.webp', whiteImageUrl: 'IMGES/WHITE/29.webp' },
+    { name: 'هودي تصميم رقم 30', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/30.webp', whiteImageUrl: 'IMGES/WHITE/30.webp' },
+    { name: 'هودي تصميم رقم 31', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/31.webp', whiteImageUrl: 'IMGES/WHITE/31.webp' },
+    { name: 'هودي تصميم رقم 32', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/32.webp', whiteImageUrl: 'IMGES/WHITE/32.webp' },
+    { name: 'هودي تصميم رقم 33', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/33.webp', whiteImageUrl: 'IMGES/WHITE/33.webp' },
+    { name: 'هودي تصميم رقم 34', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/34.webp', whiteImageUrl: 'IMGES/WHITE/34.webp' },
+    { name: 'هودي تصميم رقم 35', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/35.webp', whiteImageUrl: 'IMGES/WHITE/35.webp' },
+    { name: 'هودي تصميم رقم 36', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/36.webp', whiteImageUrl: 'IMGES/WHITE/36.webp' },
+    { name: 'هودي تصميم رقم 37', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/37.webp', whiteImageUrl: 'IMGES/WHITE/37.webp' },
+    { name: 'هودي تصميم رقم 38', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/38.webp', whiteImageUrl: 'IMGES/WHITE/38.webp' },
+    { name: 'هودي تصميم رقم 39', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/39.webp', whiteImageUrl: 'IMGES/WHITE/39.webp' },
+    { name: 'هودي تصميم رقم 40', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/40.webp', whiteImageUrl: 'IMGES/WHITE/40.webp' },
+    { name: 'هودي تصميم رقم 41', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/41.webp', whiteImageUrl: 'IMGES/WHITE/41.webp' },
+    { name: 'هودي تصميم رقم 42', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/42.webp', whiteImageUrl: 'IMGES/WHITE/42.webp' },
+    { name: 'هودي تصميم رقم 43', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/43.webp', whiteImageUrl: 'IMGES/WHITE/43.webp' },
+    { name: 'هودي تصميم رقم 44', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/44.webp', whiteImageUrl: 'IMGES/WHITE/44.webp' },
+    { name: 'هودي تصميم رقم 45', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/45.webp', whiteImageUrl: 'IMGES/WHITE/45.webp' },
+    { name: 'هودي تصميم رقم 46', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/46.webp', whiteImageUrl: 'IMGES/WHITE/46.webp' },
+    { name: 'هودي تصميم رقم 47', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/47.webp', whiteImageUrl: 'IMGES/WHITE/47.webp' },
+    { name: 'هودي تصميم رقم 48', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/48.webp', whiteImageUrl: 'IMGES/WHITE/48.webp' },
+    { name: 'هودي تصميم رقم 50', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/50.webp', whiteImageUrl: 'IMGES/WHITE/50.webp' },
+    { name: 'هودي تصميم رقم 60', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/51.webp', whiteImageUrl: 'IMGES/WHITE/51.webp' },
+    { name: 'هودي تصميم رقم 61', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/52.webp', whiteImageUrl: 'IMGES/WHITE/52.webp' },
+    { name: 'هودي تصميم رقم 62', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/53.webp', whiteImageUrl: 'IMGES/WHITE/53.webp' },
+    { name: 'هودي تصميم رقم 63', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/54.webp', whiteImageUrl: 'IMGES/WHITE/54.webp' },
+    { name: 'هودي تصميم رقم 64', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/55.webp', whiteImageUrl: 'IMGES/WHITE/55.webp' },
     {
         name: 'هودي (GIRL) تصميم 1', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS',
-        blackImageUrl: 'IMGES/GIRLS/1.png',
-        whiteImageUrl: 'IMGES/GIRLS/h(2).png'
+        blackImageUrl: 'IMGES/GIRLS/1.webp',
+        whiteImageUrl: 'IMGES/GIRLS/h(2).webp'
     },
     {
         name: 'هودي (GIRL) تصميم 2', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS',
-        blackImageUrl: 'IMGES/GIRLS/2.png',
-        whiteImageUrl: 'IMGES/GIRLS/3.png'
+        blackImageUrl: 'IMGES/GIRLS/2.webp',
+        whiteImageUrl: 'IMGES/GIRLS/3.webp'
     },
     {
         name: 'هودي (GIRL) تصميم 3', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS',
-        blackImageUrl: 'IMGES/GIRLS/4.png',
-        whiteImageUrl: 'IMGES/GIRLS/.png'
+        blackImageUrl: 'IMGES/GIRLS/4.webp',
+        whiteImageUrl: 'IMGES/GIRLS/.webp'
     },
     {
         name: 'هودي (GIRL) تصميم 4', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS',
-        blackImageUrl: 'IMGES/GIRLS/5.png',
-        whiteImageUrl: 'IMGES/GIRLS/.png'
+        blackImageUrl: 'IMGES/GIRLS/5.webp',
+        whiteImageUrl: 'IMGES/GIRLS/.webp'
     },
     {
         name: 'هودي (GIRL) تصميم 5', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS',
-        blackImageUrl: 'IMGES/GIRLS/6.png',
-        whiteImageUrl: 'IMGES/GIRLS/.png'
+        blackImageUrl: 'IMGES/GIRLS/6.webp',
+        whiteImageUrl: 'IMGES/GIRLS/.webp'
     },
     {
         name: 'هودي (GIRL) تصميم 6', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS',
-        blackImageUrl: 'IMGES/GIRLS/7.png',
-        whiteImageUrl: 'IMGES/GIRLS/.png'
+        blackImageUrl: 'IMGES/GIRLS/7.webp',
+        whiteImageUrl: 'IMGES/GIRLS/.webp'
     },
     {
         name: 'هودي (GIRL) تصميم 7', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS',
-        blackImageUrl: 'IMGES/GIRLS/8.png',
-        whiteImageUrl: 'IMGES/GIRLS/.png'
+        blackImageUrl: 'IMGES/GIRLS/8.webp',
+        whiteImageUrl: 'IMGES/GIRLS/.webp'
     },
-    { name: 'مج JOKER', category: 'مج', imageUrl: 'IMGES/M (1).png', price: '130 L.E' },
-    { name: 'مج JOHN WICK', category: 'مج', imageUrl: 'IMGES/M (2).png', price: '130 L.E' },
-    { name: 'مج FALASTIN', category: 'مج', imageUrl: 'IMGES/M (8).png', price: '130 L.E' },
-    { name: 'مج ZORO', category: 'مج', imageUrl: 'IMGES/M (6).png', price: '130 L.E' },
-    { name: 'مج DUCK', category: 'مج', imageUrl: 'IMGES/M (7).png', price: '130 L.E' },
-    { name: 'مج ANGEL', category: 'مج', imageUrl: 'IMGES/M (9).png', price: '130 L.E' },
-    { name: 'مج HARYY POTTER', category: 'مج', imageUrl: 'IMGES/M (4).png', price: '130 L.E' },
-    { name: 'مج KRATOS', category: 'مج', imageUrl: 'IMGES/M (10).png', price: '130 L.E' },
-    { name: 'مج تصميم رقم 11', category: 'مج', imageUrl: 'IMGES/M (11).png', price: '130 L.E' },
-    { name: 'مج تصميم رقم 12', category: 'مج', imageUrl: 'IMGES/M (12).png', price: '130 L.E' },
-    { name: 'مج تصميم رقم 13', category: 'مج', imageUrl: 'IMGES/M (13).png', price: '130 L.E' },
-    { name: 'مج تصميم رقم 14', category: 'مج', imageUrl: 'IMGES/M (14).png', price: '130 L.E' },
-    { name: 'مج تصميم رقم 15', category: 'مج', imageUrl: 'IMGES/M (15).png', price: '130 L.E' },
-    { name: 'مج تصميم رقم 16', category: 'مج', imageUrl: 'IMGES/M (16).png', price: '130 L.E' },
-    { name: 'مج تصميم رقم 17', category: 'مج', imageUrl: 'IMGES/M (17).png', price: '130 L.E' },
-    { name: 'مج تصميم رقم 18', category: 'مج', imageUrl: 'IMGES/M (18).png', price: '130 L.E' },
-    { name: 'مج تصميم رقم 19', category: 'مج', imageUrl: 'IMGES/M (19).png', price: '130 L.E' },
+    { name: 'مج JOKER', category: 'مج', imageUrl: 'IMGES/M (1).webp', price: '130 L.E' },
+    { name: 'مج JOHN WICK', category: 'مج', imageUrl: 'IMGES/M (2).webp', price: '130 L.E' },
+    { name: 'مج FALASTIN', category: 'مج', imageUrl: 'IMGES/M (8).webp', price: '130 L.E' },
+    { name: 'مج ZORO', category: 'مج', imageUrl: 'IMGES/M (6).webp', price: '130 L.E' },
+    { name: 'مج DUCK', category: 'مج', imageUrl: 'IMGES/M (7).webp', price: '130 L.E' },
+    { name: 'مج ANGEL', category: 'مج', imageUrl: 'IMGES/M (9).webp', price: '130 L.E' },
+    { name: 'مج HARYY POTTER', category: 'مج', imageUrl: 'IMGES/M (4).webp', price: '130 L.E' },
+    { name: 'مج KRATOS', category: 'مج', imageUrl: 'IMGES/M (10).webp', price: '130 L.E' },
+    { name: 'مج تصميم رقم 11', category: 'مج', imageUrl: 'IMGES/M (11).webp', price: '130 L.E' },
+    { name: 'مج تصميم رقم 12', category: 'مج', imageUrl: 'IMGES/M (12).webp', price: '130 L.E' },
+    { name: 'مج تصميم رقم 13', category: 'مج', imageUrl: 'IMGES/M (13).webp', price: '130 L.E' },
+    { name: 'مج تصميم رقم 14', category: 'مج', imageUrl: 'IMGES/M (14).webp', price: '130 L.E' },
+    { name: 'مج تصميم رقم 15', category: 'مج', imageUrl: 'IMGES/M (15).webp', price: '130 L.E' },
+    { name: 'مج تصميم رقم 16', category: 'مج', imageUrl: 'IMGES/M (16).webp', price: '130 L.E' },
+    { name: 'مج تصميم رقم 17', category: 'مج', imageUrl: 'IMGES/M (17).webp', price: '130 L.E' },
+    { name: 'مج تصميم رقم 18', category: 'مج', imageUrl: 'IMGES/M (18).webp', price: '130 L.E' },
+    { name: 'مج تصميم رقم 19', category: 'مج', imageUrl: 'IMGES/M (19).webp', price: '130 L.E' },
     { name: 'Soon', category: 'جاكيت', price: '750 L.E' },
     { name: 'Soon', category: 'توتي باجز', price: '250 L.E' },
 ];
@@ -218,7 +218,14 @@ function renderSlideshow() {
     SLIDESHOW_IMAGES.forEach((url, index) => {
         const slide = document.createElement('div');
         slide.className = `slide absolute top-0 left-0 w-full h-full transition-opacity duration-1000 ${index === 0 ? 'active' : ''}`;
-        slide.innerHTML = `<img src="${url}" alt="Slide ${index + 1}" class="w-full h-full object-fill" loading="lazy">`;
+        
+        // تعديل: تحميل الصورة الأولى بأولوية عالية
+        if (index === 0) {
+            slide.innerHTML = `<img src="${url}" alt="Slide ${index + 1}" class="w-full h-full object-fill" fetchpriority="high">`;
+        } else {
+            slide.innerHTML = `<img src="${url}" alt="Slide ${index + 1}" class="w-full h-full object-fill" loading="lazy">`;
+        }
+
         container.appendChild(slide);
 
         const imgElement = slide.querySelector('img');
@@ -849,9 +856,8 @@ window.onload = () => {
 let modalStartX = 0;
 const modalContent = document.getElementById('imageModalContent');
 
-// Prevent swipe on image and modal content if the image is the target
 modalContent.addEventListener('touchstart', (e) => {
-    // If the touch starts on the image, stop propagation to allow native zoom
+    // If the touch starts on the image, don't set a starting position for swiping
     if (e.target === modalImage) {
         return;
     }
@@ -859,7 +865,7 @@ modalContent.addEventListener('touchstart', (e) => {
 });
 
 modalContent.addEventListener('touchend', (e) => {
-    // If the touch ends on the image, prevent navigation
+    // If the touch ends on the image, don't trigger navigation
     if (e.target === modalImage) {
         return;
     }
