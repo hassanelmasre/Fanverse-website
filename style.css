@@ -91,3 +91,9 @@ body {
 .whatsapp-btn .icon {
     font-size: 1.5rem; /* حجم الأيقونة */
 }
+/* إخفاء زر الواتساب الثابت على شاشات الموبايل */
+@media (max-width: 640px) {
+  .fixed-whatsapp-btn {
+    display: none;
+  }
+}
