@@ -763,9 +763,9 @@ function renderProducts(filter) {
                         <span class="color-dot dot-black active bg-black" title="اللون الأسود"></span>
                         <span class="color-dot dot-white bg-white" title="اللون الأبيض"></span>
                     </div>
-                    <p class="white-availability-message text-xs text-gray-600 dark:text-gray-400 mt-1" style="display: ${isWhiteAvailable ? 'block' : 'none'};">
-                        متاح اللون الأبيض، اضغط للعرض
-                    </p>
+                   <p class="white-availability-message text-xs mt-1" style="color: #ffffff !important; font-weight: 800 !important; display: ${isWhiteAvailable ? 'block' : 'none'};">
+    متاح اللون الأبيض، اضغط للعرض
+</p>
                 </div>
 
                 <div class="p-5 text-center flex-grow flex flex-col">
