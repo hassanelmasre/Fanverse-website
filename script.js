@@ -132,48 +132,48 @@ const products = [
     { name: 'هودي تصميم رقم 64', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/55.webp', whiteImageUrl: 'IMGES/WHITE/55.webp' },
     {
         name: 'هودي (GIRL) تصميم 1', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS',
-        blackImageUrl: 'IMGES/GIRLS/1.webp',
-        whiteImageUrl: 'IMGES/GIRLS/h(2).webp'
+        blackImageUrl: 'IMGES/GIRLS/BLACK/1.webp',
+        whiteImageUrl: 'IMGES/GIRLS/WHITE/1.webp'
     },
     {
         name: 'هودي (GIRL) تصميم 2', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS',
-        blackImageUrl: 'IMGES/GIRLS/2.webp',
-        whiteImageUrl: 'IMGES/GIRLS/3.webp'
+        blackImageUrl: 'IMGES/GIRLS/BLACK/2.webp',
+        whiteImageUrl: 'IMGES/GIRLS/WHITE/.webp'
     },
     {
         name: 'هودي (GIRL) تصميم 3', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS',
-        blackImageUrl: 'IMGES/GIRLS/4.webp',
-        whiteImageUrl: 'IMGES/GIRLS/.webp'
+        blackImageUrl: 'IMGES/GIRLS/BLACK/3.webp',
+        whiteImageUrl: 'IMGES/GIRLS/WHITE/.webp'
     },
     {
         name: 'هودي (GIRL) تصميم 4', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS',
-        blackImageUrl: 'IMGES/GIRLS/5.webp',
-        whiteImageUrl: 'IMGES/GIRLS/.webp'
+        blackImageUrl: 'IMGES/GIRLS/BLACK/4.webp',
+        whiteImageUrl: 'IMGES/GIRLS/WHITE/.webp'
     },
     {
         name: 'هودي (GIRL) تصميم 5', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS',
-        blackImageUrl: 'IMGES/GIRLS/6.webp',
-        whiteImageUrl: 'IMGES/GIRLS/.webp'
+        blackImageUrl: 'IMGES/GIRLS/BLACK/.webp',
+        whiteImageUrl: 'IMGES/GIRLS/WHITE/2.webp'
     },
     {
         name: 'هودي (GIRL) تصميم 6', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS',
-        blackImageUrl: 'IMGES/GIRLS/7.webp',
-        whiteImageUrl: 'IMGES/GIRLS/.webp'
+        blackImageUrl: 'IMGES/GIRLS/BLACK/.webp',
+        whiteImageUrl: 'IMGES/GIRLS/WHITE/3.webp'
     },
     {
         name: 'هودي (GIRL) تصميم 7', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS',
-        blackImageUrl: 'IMGES/GIRLS/8.webp',
-        whiteImageUrl: 'IMGES/GIRLS/.webp'
+        blackImageUrl: 'IMGES/GIRLS/BLACK/.webp',
+        whiteImageUrl: 'IMGES/GIRLS/WHITE/4.webp'
     },
-{
+    {
         name: 'هودي (GIRL) تصميم 8', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS',
-        blackImageUrl: 'IMGES/GIRLS/9.webp',
-        whiteImageUrl: 'IMGES/GIRLS/.webp'
+        blackImageUrl: 'IMGES/GIRLS/BLACK/.webp',
+        whiteImageUrl: 'IMGES/GIRLS/WHITE/5.webp'
     },
-{
+    {
         name: 'هودي (GIRL) تصميم 9', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS',
-        blackImageUrl: 'IMGES/GIRLS/10.webp',
-        whiteImageUrl: 'IMGES/GIRLS/.webp'
+        blackImageUrl: 'IMGES/GIRLS/BLACK/.webp',
+        whiteImageUrl: 'IMGES/GIRLS/WHITE/6.webp'
     },
 
 
@@ -368,22 +368,22 @@ function initializeHoodieCard(card) {
     const overlay = card.querySelector('.unavailable-overlay');
     const dotBlack = card.querySelector('.dot-black');
     const dotWhite = card.querySelector('.dot-white');
-    const whiteAvailabilityMessage = card.querySelector('.white-availability-message');
+    const colorMessage = card.querySelector('.white-availability-message');
 
     const setActiveColor = (color) => {
-        dotBlack.classList.remove('active');
-        dotWhite.classList.remove('active');
-        if (color === 'black') dotBlack.classList.add('active');
-        if (color === 'white') dotWhite.classList.add('active');
+        if (dotBlack) dotBlack.classList.remove('active');
+        if (dotWhite) dotWhite.classList.remove('active');
+        if (color === 'black' && dotBlack) dotBlack.classList.add('active');
+        if (color === 'white' && dotWhite) dotWhite.classList.add('active');
         card.dataset.currentColor = color;
     };
 
     const showUnavailable = () => {
-        imgElement.style.display = 'none';
-        overlay.classList.remove('hidden');
-        dotBlack.classList.remove('active');
-        dotWhite.classList.remove('active');
-        if (whiteAvailabilityMessage) whiteAvailabilityMessage.style.display = 'none';
+        if (imgElement) imgElement.style.display = 'none';
+        if (overlay) overlay.classList.remove('hidden');
+        if (dotBlack) dotBlack.classList.remove('active');
+        if (dotWhite) dotWhite.classList.remove('active');
+        if (colorMessage) colorMessage.style.display = 'none';
     };
 
     const setInitialImage = async () => {
@@ -394,14 +394,20 @@ function initializeHoodieCard(card) {
             imgElement.src = blackUrl;
             setActiveColor('black');
             if (isWhiteAvailable) {
-                if (whiteAvailabilityMessage) whiteAvailabilityMessage.style.display = 'block';
+                if (colorMessage) {
+                    colorMessage.textContent = "متاح اللون الأبيض، اضغط للعرض";
+                    colorMessage.style.display = 'block';
+                }
             } else {
-                if (whiteAvailabilityMessage) whiteAvailabilityMessage.style.display = 'none';
+                if (colorMessage) colorMessage.style.display = 'none';
             }
         } else if (isWhiteAvailable) {
             imgElement.src = whiteUrl;
             setActiveColor('white');
-            if (whiteAvailabilityMessage) whiteAvailabilityMessage.style.display = 'none';
+            if (colorMessage) {
+                 colorMessage.textContent = "متاح اللون الأسود، اضغط للعرض";
+                 colorMessage.style.display = 'block'; // يجب إظهار الرسالة لأن اللون الأسود غير متاح
+            }
         } else {
             showUnavailable();
         }
@@ -521,43 +527,58 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+// هذا هو الجزء الذي تم تبسيطه
 function toggleHoodieColor(card, color) {
     const imgElement = card.querySelector('.product-image');
     const overlay = card.querySelector('.unavailable-overlay');
-    const blackUrl = card.dataset.blackUrl;
-    const whiteUrl = card.dataset.whiteUrl;
     const dotBlack = card.querySelector('.dot-black');
     const dotWhite = card.querySelector('.dot-white');
-    const whiteAvailabilityMessage = card.querySelector('.white-availability-message');
-    
-    let newSrc = (color === 'black') ? blackUrl : whiteUrl;
-    
+    const colorMessage = card.querySelector('.white-availability-message');
+
+    const blackUrl = card.dataset.blackUrl;
+    const whiteUrl = card.dataset.whiteUrl;
+
+    let newSrc;
+    let otherSrc;
+
+    if (color === 'black') {
+        newSrc = blackUrl;
+        otherSrc = whiteUrl;
+    } else {
+        newSrc = whiteUrl;
+        otherSrc = blackUrl;
+    }
+
     checkImageExists(newSrc).then(isAvailable => {
         if (isAvailable) {
             imgElement.src = newSrc;
             imgElement.style.display = 'block';
             overlay.classList.add('hidden');
-            dotBlack.classList.remove('active');
-            dotWhite.classList.remove('active');
-            
+
+            if (dotBlack) dotBlack.classList.remove('active');
+            if (dotWhite) dotWhite.classList.remove('active');
+
             if (color === 'black') {
-                dotBlack.classList.add('active');
+                if (dotBlack) dotBlack.classList.add('active');
                 card.dataset.currentColor = 'black';
-                checkImageExists(whiteUrl).then(isWhiteAvailable => {
-                    if (isWhiteAvailable) {
-                        if (whiteAvailabilityMessage) whiteAvailabilityMessage.style.display = 'block';
-                    } else {
-                        if (whiteAvailabilityMessage) whiteAvailabilityMessage.style.display = 'none';
-                    }
-                });
+
+                if (colorMessage) {
+                    checkImageExists(otherSrc).then(isOtherAvailable => {
+                        colorMessage.textContent = "متاح اللون الأبيض، اضغط للعرض";
+                        colorMessage.style.display = isOtherAvailable ? 'block' : 'none';
+                    });
+                }
             } else {
-                dotWhite.classList.add('active');
+                if (dotWhite) dotWhite.classList.add('active');
                 card.dataset.currentColor = 'white';
-                if (whiteAvailabilityMessage) whiteAvailabilityMessage.style.display = 'none';
+
+                if (colorMessage) {
+                    checkImageExists(otherSrc).then(isOtherAvailable => {
+                        colorMessage.textContent = "متاح اللون الأسود، اضغط للعرض";
+                        colorMessage.style.display = isOtherAvailable ? 'block' : 'none';
+                    });
+                }
             }
-        } else {
-            // If the requested image is not available, do not switch
-            // The active dot will remain on the previously selected color
         }
     });
 }
@@ -742,6 +763,7 @@ function renderProducts(filter) {
             
             const isWhiteAvailable = product.whiteImageUrl && !product.whiteImageUrl.endsWith('/.webp');
 
+            // ** التعديل هنا **: تم إضافة كلاسات Tailwind مباشرة لجعل النص أبيض وبولد
             cardHTML = `
             <div class="product-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl flex flex-col"
                 data-black-url="${product.blackImageUrl}"
@@ -763,9 +785,9 @@ function renderProducts(filter) {
                         <span class="color-dot dot-black active bg-black" title="اللون الأسود"></span>
                         <span class="color-dot dot-white bg-white" title="اللون الأبيض"></span>
                     </div>
-                   <p class="white-availability-message text-xs mt-1" style="color: #ffffff !important; font-weight: 800 !important; display: ${isWhiteAvailable ? 'block' : 'none'};">
-    متاح اللون الأبيض، اضغط للعرض
-</p>
+                    <p class="white-availability-message text-xs mt-1 font-bold text-white text-shadow-md" style="display: ${isWhiteAvailable ? 'block' : 'none'};">
+                        متاح اللون الأبيض، اضغط للعرض
+                    </p>
                 </div>
 
                 <div class="p-5 text-center flex-grow flex flex-col">
@@ -833,7 +855,7 @@ function renderProducts(filter) {
 }
 
 function renderCategoryFilters() {
-    const categories = [...new Set(products.map(p => p.category))].filter(cat => cat !== 'الكل');
+    const categories = [...new Set(products.map(p => p.category))].filter(cat => cat !== 'الكل' && cat !== 'جاكيت' && cat !== 'توتي باجز');
 
     categoryFiltersContainer.innerHTML = '';
     categories.forEach(category => {
@@ -900,7 +922,6 @@ let modalStartX = 0;
 const modalContent = document.getElementById('imageModalContent');
 
 modalContent.addEventListener('touchstart', (e) => {
-    // If the touch starts on the image, don't set a starting position for swiping
     if (e.target === modalImage) {
         return;
     }
@@ -908,7 +929,6 @@ modalContent.addEventListener('touchstart', (e) => {
 });
 
 modalContent.addEventListener('touchend', (e) => {
-    // If the touch ends on the image, don't trigger navigation
     if (e.target === modalImage) {
         return;
     }
