@@ -231,7 +231,6 @@ function renderSlideshow() {
         const slide = document.createElement('div');
         slide.className = `slide absolute top-0 left-0 w-full h-full transition-opacity duration-1000 ${index === 0 ? 'active' : ''}`;
         
-        // تعديل: تحميل الصورة الأولى بأولوية عالية
         if (index === 0) {
             slide.innerHTML = `<img src="${url}" alt="Slide ${index + 1}" class="w-full h-full object-fill" fetchpriority="high">`;
         } else {
@@ -406,7 +405,7 @@ function initializeHoodieCard(card) {
             setActiveColor('white');
             if (colorMessage) {
                  colorMessage.textContent = "متاح اللون الأسود، اضغط للعرض";
-                 colorMessage.style.display = 'block'; // يجب إظهار الرسالة لأن اللون الأسود غير متاح
+                 colorMessage.style.display = 'block'; 
             }
         } else {
             showUnavailable();
@@ -527,7 +526,6 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// هذا هو الجزء الذي تم تبسيطه
 function toggleHoodieColor(card, color) {
     const imgElement = card.querySelector('.product-image');
     const overlay = card.querySelector('.unavailable-overlay');
@@ -592,7 +590,6 @@ function setupColorToggleInteractions(card) {
 
     let startX = 0;
     
-    // For mouse interaction
     imageContainer.addEventListener('mousedown', (e) => {
         startX = e.clientX;
     });
@@ -612,7 +609,6 @@ function setupColorToggleInteractions(card) {
         }
     });
     
-    // For touch interaction
     imageContainer.addEventListener('touchstart', (e) => {
         startX = e.touches[0].clientX;
     });
@@ -708,67 +704,84 @@ function updateActiveGenderButton() {
     });
 }
 
-function renderProducts(filter) {
+// ** تم تعديل هذه الدالة بالكامل **
+async function renderProducts(filter) {
     productGrid.innerHTML = '';
     const allProductElements = [];
     const filteredIndices = [];
 
     renderGenderFilters();
 
-    products.forEach((product, index) => {
-        if (product.category !== filter) return;
+    for (const [index, product] of products.entries()) {
+        if (product.category !== filter) continue;
 
         if (product.category === 'هودي' && activeGenderFilter !== 'الكل') {
-
             const isGirlProduct = product.gender === 'GIRLS';
             const isBoyProduct = product.gender === undefined;
 
-            if (activeGenderFilter === 'BOYS') {
-                if (isGirlProduct) return;
-            } else if (activeGenderFilter === 'GIRLS') {
-                if (isBoyProduct) return;
-                if (!isGirlProduct) return;
-            }
+            if (activeGenderFilter === 'BOYS' && isGirlProduct) continue;
+            if (activeGenderFilter === 'GIRLS' && !isGirlProduct) continue;
         }
 
-        filteredIndices.push(index);
+        let initialImageUrl = '';
+        let initialColor = '';
+        const isBlackAvailable = product.isTwoColor && await checkImageExists(product.blackImageUrl);
+        const isWhiteAvailable = product.isTwoColor && await checkImageExists(product.whiteImageUrl);
+        
+        if (product.isTwoColor) {
+            if (isBlackAvailable) {
+                initialImageUrl = product.blackImageUrl;
+                initialColor = 'black';
+            } else if (isWhiteAvailable) {
+                initialImageUrl = product.whiteImageUrl;
+                initialColor = 'white';
+            } else {
+                initialImageUrl = generatePlaceholder(product.name + ' - غير متاح');
+            }
+        } else {
+            initialImageUrl = product.imageUrl;
+            initialColor = 'N/A';
+        }
 
-        const description = categoryDescriptions[product.category] || '';
         let cardHTML;
-
-        // الرابط الخاص بالواتساب مع رسالة مخصصة
         const whatsappLink = `https://wa.me/201031081308?text=مرحباً، أود الاستفسار عن منتج ${encodeURIComponent(product.name)} - السعر: ${encodeURIComponent(product.price)}`;
+        const description = categoryDescriptions[product.category] || '';
 
-        if (product.category === 'جاكيت' || product.category === 'توتي باجز') {
-            cardHTML = `
-            <div class="product-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl flex flex-col h-full" data-index="${index}" data-original-index="${index}">
-                <div class="w-full h-64 bg-gray-600 dark:bg-gray-700 flex items-center justify-center">
-                    <h3 class="text-3xl font-extrabold text-white tracking-widest">${product.name.toUpperCase()}</h3>
-                </div>
-                <div class="p-5 text-center flex-grow flex flex-col">
-                    <div class="flex-grow">
-                        <h3 class="text-xl font-bold mb-2 truncate">${product.name.toUpperCase()}</h3>
-                        <p class="text-sm text-red-600 dark:text-red-500 mb-2 font-semibold">${product.category}</p>
-                        <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed min-h-[60px]">${description}</p>
-                    </div>
-                    <div class="text-2xl font-bold text-gray-400 dark:text-gray-500 mt-4">${product.price}</div>
-                    <a href="${whatsappLink}" class="whatsapp-card-btn" target="_blank">
-                        <span>اطلب الآن</span>
-                        <i class="fab fa-whatsapp"></i>
-                    </a>
-                </div>
-            </div>`;
-        } else if (product.category === 'هودي') {
-            const initialImageUrl = product.blackImageUrl;
-            
-            const isWhiteAvailable = product.whiteImageUrl && !product.whiteImageUrl.endsWith('/.webp');
+        if (product.category === 'هودي') {
+            let colorOptionsHTML = '';
+            let colorMessageHTML = '';
 
-            // ** التعديل هنا **: تم إضافة كلاسات Tailwind مباشرة لجعل النص أبيض وبولد
+            // إنشاء نقاط الألوان بناءً على التوفر
+            const blackDotClass = `color-dot dot-black ${!isBlackAvailable ? 'hidden' : ''} bg-black`;
+            const whiteDotClass = `color-dot dot-white ${!isWhiteAvailable ? 'hidden' : ''} bg-white`;
+
+            if (isBlackAvailable || isWhiteAvailable) {
+                colorOptionsHTML = `
+                    <div class="flex gap-3">
+                        <span class="${blackDotClass}" title="اللون الأسود"></span>
+                        <span class="${whiteDotClass}" title="اللون الأبيض"></span>
+                    </div>`;
+            }
+
+            // تحديد الرسالة التي يجب عرضها
+            if (initialColor === 'black' && isWhiteAvailable) {
+                colorMessageHTML = `
+                    <p class="white-availability-message text-xs mt-1 font-bold text-white text-shadow-md">
+                        متاح اللون الأبيض، اضغط للعرض
+                    </p>`;
+            } else if (initialColor === 'white' && isBlackAvailable) {
+                colorMessageHTML = `
+                    <p class="white-availability-message text-xs mt-1 font-bold text-white text-shadow-md">
+                        متاح اللون الأسود، اضغط للعرض
+                    </p>`;
+            }
+            // إذا كان لون واحد فقط متاحاً، لن يتم عرض رسالة.
+
             cardHTML = `
             <div class="product-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl flex flex-col"
                 data-black-url="${product.blackImageUrl}"
                 data-white-url="${product.whiteImageUrl}"
-                data-current-color="black"
+                data-current-color="${initialColor}"
                 data-index="${index}"
                 data-original-index="${index}">
 
@@ -781,13 +794,8 @@ function renderProducts(filter) {
                 </div>
 
                 <div class="flex justify-center flex-col items-center gap-1 py-2">
-                    <div class="flex gap-3">
-                        <span class="color-dot dot-black active bg-black" title="اللون الأسود"></span>
-                        <span class="color-dot dot-white bg-white" title="اللون الأبيض"></span>
-                    </div>
-                    <p class="white-availability-message text-xs mt-1 font-bold text-white text-shadow-md" style="display: ${isWhiteAvailable ? 'block' : 'none'};">
-                        متاح اللون الأبيض، اضغط للعرض
-                    </p>
+                    ${colorOptionsHTML}
+                    ${colorMessageHTML}
                 </div>
 
                 <div class="p-5 text-center flex-grow flex flex-col">
@@ -806,11 +814,10 @@ function renderProducts(filter) {
                 </div>
             </div>`;
         } else {
-            const imageUrl = product.imageUrl || generatePlaceholder(product.name, 'black');
-            cardHTML = `
-            <div class="product-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer flex flex-col" data-image-url="${imageUrl}" data-index="${index}" data-original-index="${index}">
+             cardHTML = `
+            <div class="product-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer flex flex-col" data-image-url="${initialImageUrl}" data-index="${index}" data-original-index="${index}">
                 <div class="w-full h-64 bg-gray-200 dark:bg-gray-700 pointer-events-none">
-                    <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-64 object-cover" loading="lazy" onerror="this.src='${generatePlaceholder(product.name, 'black')}'">
+                    <img src="${initialImageUrl}" alt="${product.name}" class="w-full h-64 object-cover" loading="lazy" onerror="this.src='${generatePlaceholder(product.name, 'black')}'">
                 </div>
                 <div class="p-5 text-center flex-grow flex-col">
                     <div class="flex-grow">
@@ -828,15 +835,16 @@ function renderProducts(filter) {
                 </div>
             </div>`;
         }
-
+        
         allProductElements.push(cardHTML);
-    });
+        filteredIndices.push(index); 
+    }
 
     productGrid.innerHTML = allProductElements.join('');
 
     modalMetadata.dataset.filteredIndices = JSON.stringify(filteredIndices);
     currentlyDisplayedCards = Array.from(productGrid.querySelectorAll('.product-card'));
-
+    
     currentlyDisplayedCards.forEach((card, filteredIndex) => {
         const originalIndex = parseInt(card.dataset.index);
         const product = products[originalIndex];
@@ -853,6 +861,7 @@ function renderProducts(filter) {
         }
     });
 }
+
 
 function renderCategoryFilters() {
     const categories = [...new Set(products.map(p => p.category))].filter(cat => cat !== 'الكل' && cat !== 'جاكيت' && cat !== 'توتي باجز');
