@@ -350,7 +350,7 @@ async function isProductImageAvailable(product) {
 
 function checkImageExists(url) {
     return new Promise(resolve => {
-        if (!url) {
+        if (!url || url.endsWith('/.webp')) {
             resolve(false);
             return;
         }
@@ -368,61 +368,46 @@ function initializeHoodieCard(card) {
     const overlay = card.querySelector('.unavailable-overlay');
     const dotBlack = card.querySelector('.dot-black');
     const dotWhite = card.querySelector('.dot-white');
+    const whiteAvailabilityMessage = card.querySelector('.white-availability-message');
 
     const setActiveColor = (color) => {
-        if (dotBlack) dotBlack.classList.remove('active');
-        if (dotWhite) dotWhite.classList.remove('active');
-        if (color === 'black' && dotBlack) dotBlack.classList.add('active');
-        if (color === 'white' && dotWhite) dotWhite.classList.add('active');
+        dotBlack.classList.remove('active');
+        dotWhite.classList.remove('active');
+        if (color === 'black') dotBlack.classList.add('active');
+        if (color === 'white') dotWhite.classList.add('active');
         card.dataset.currentColor = color;
     };
 
     const showUnavailable = () => {
-        if (overlay) {
-            imgElement.style.display = 'none';
-            overlay.classList.remove('hidden');
-        } else {
-            const productName = card.querySelector('h3').textContent;
-            imgElement.src = generatePlaceholder(productName, 'black');
-            imgElement.style.display = 'block';
-        }
-        setActiveColor('black');
+        imgElement.style.display = 'none';
+        overlay.classList.remove('hidden');
+        dotBlack.classList.remove('active');
+        dotWhite.classList.remove('active');
+        if (whiteAvailabilityMessage) whiteAvailabilityMessage.style.display = 'none';
     };
 
-    const tryLoadBlack = () => {
-        const tempBlack = new Image();
-        tempBlack.onload = () => {
+    const setInitialImage = async () => {
+        const isBlackAvailable = await checkImageExists(blackUrl);
+        const isWhiteAvailable = await checkImageExists(whiteUrl);
+
+        if (isBlackAvailable) {
             imgElement.src = blackUrl;
             setActiveColor('black');
-            if (overlay) overlay.classList.add('hidden');
-            imgElement.style.display = 'block';
-        };
-        tempBlack.onerror = () => {
-            tryLoadWhite();
-        };
-        tempBlack.src = blackUrl;
-    };
-
-    const tryLoadWhite = () => {
-        const tempWhite = new Image();
-        tempWhite.onload = () => {
+            if (isWhiteAvailable) {
+                if (whiteAvailabilityMessage) whiteAvailabilityMessage.style.display = 'block';
+            } else {
+                if (whiteAvailabilityMessage) whiteAvailabilityMessage.style.display = 'none';
+            }
+        } else if (isWhiteAvailable) {
             imgElement.src = whiteUrl;
             setActiveColor('white');
-            if (overlay) overlay.classList.add('hidden');
-            imgElement.style.display = 'block';
-        };
-        tempWhite.onerror = () => {
+            if (whiteAvailabilityMessage) whiteAvailabilityMessage.style.display = 'none';
+        } else {
             showUnavailable();
-        };
-        tempWhite.src =
-            whiteUrl;
+        }
     };
-
-    tryLoadBlack();
-
-    imgElement.onload = null;
-    imgElement.onerror = null;
-
+    
+    setInitialImage();
     setupColorToggleInteractions(card);
 }
 
@@ -541,82 +526,101 @@ function toggleHoodieColor(card, color) {
     const overlay = card.querySelector('.unavailable-overlay');
     const blackUrl = card.dataset.blackUrl;
     const whiteUrl = card.dataset.whiteUrl;
-    const dots = card.querySelectorAll('.color-dot');
-    const isBlack = color === 'black';
-
-    const newSrc = isBlack ? blackUrl : whiteUrl;
-
-    if (overlay) overlay.classList.add('hidden');
-    imgElement.style.display = 'block';
-
-    imgElement.onerror = null;
-
-    imgElement.onerror = () => {
-        if (overlay) {
-            imgElement.style.display = 'none';
-            overlay.classList.remove('hidden');
-        } else {
-            const productName = card.querySelector('h3').textContent;
-            imgElement.src = generatePlaceholder(productName, color);
+    const dotBlack = card.querySelector('.dot-black');
+    const dotWhite = card.querySelector('.dot-white');
+    const whiteAvailabilityMessage = card.querySelector('.white-availability-message');
+    
+    let newSrc = (color === 'black') ? blackUrl : whiteUrl;
+    
+    checkImageExists(newSrc).then(isAvailable => {
+        if (isAvailable) {
+            imgElement.src = newSrc;
             imgElement.style.display = 'block';
+            overlay.classList.add('hidden');
+            dotBlack.classList.remove('active');
+            dotWhite.classList.remove('active');
+            
+            if (color === 'black') {
+                dotBlack.classList.add('active');
+                card.dataset.currentColor = 'black';
+                checkImageExists(whiteUrl).then(isWhiteAvailable => {
+                    if (isWhiteAvailable) {
+                        if (whiteAvailabilityMessage) whiteAvailabilityMessage.style.display = 'block';
+                    } else {
+                        if (whiteAvailabilityMessage) whiteAvailabilityMessage.style.display = 'none';
+                    }
+                });
+            } else {
+                dotWhite.classList.add('active');
+                card.dataset.currentColor = 'white';
+                if (whiteAvailabilityMessage) whiteAvailabilityMessage.style.display = 'none';
+            }
+        } else {
+            // If the requested image is not available, do not switch
+            // The active dot will remain on the previously selected color
         }
-    };
-
-    imgElement.onload = () => {
-        if (overlay) overlay.classList.add('hidden');
-        imgElement.style.display = 'block';
-    }
-
-    imgElement.src = newSrc;
-
-    dots.forEach(dot => dot.classList.remove('active'));
-    if (isBlack) {
-        dots[0].classList.add('active');
-    } else {
-        dots[1].classList.add('active');
-    }
-    card.dataset.currentColor = color;
+    });
 }
 
 function setupColorToggleInteractions(card) {
     const imageContainer = card.querySelector('.image-swipe-area');
-
     const dotBlack = card.querySelector('.dot-black');
     const dotWhite = card.querySelector('.dot-white');
+    const blackUrl = card.dataset.blackUrl;
+    const whiteUrl = card.dataset.whiteUrl;
 
     let startX = 0;
-
+    
+    // For mouse interaction
     imageContainer.addEventListener('mousedown', (e) => {
         startX = e.clientX;
     });
 
-    imageContainer.addEventListener('mouseup', (e) => {
+    imageContainer.addEventListener('mouseup', async (e) => {
         const diffX = e.clientX - startX;
         if (Math.abs(diffX) > 40) {
             const currentColor = card.dataset.currentColor;
             const newColor = currentColor === 'black' ? 'white' : 'black';
-            toggleHoodieColor(card, newColor);
+            
+            const newUrl = (newColor === 'black') ? blackUrl : whiteUrl;
+            const isAvailable = await checkImageExists(newUrl);
+
+            if (isAvailable) {
+                 toggleHoodieColor(card, newColor);
+            }
         }
     });
-
+    
+    // For touch interaction
     imageContainer.addEventListener('touchstart', (e) => {
         startX = e.touches[0].clientX;
     });
 
-    imageContainer.addEventListener('touchend', (e) => {
+    imageContainer.addEventListener('touchend', async (e) => {
         const endX = e.changedTouches[0].clientX;
         const diffX = endX - startX;
-        if (Math.abs(diffX) > 40) {
-            if (diffX > 0) {
-                navigateModal('prev-card');
-            } else {
-                navigateModal('next-card');
+        const swipeThreshold = 40;
+        
+        if (Math.abs(diffX) > swipeThreshold) {
+            const currentColor = card.dataset.currentColor;
+            const newColor = currentColor === 'black' ? 'white' : 'black';
+            
+            const newUrl = (newColor === 'black') ? blackUrl : whiteUrl;
+            const isAvailable = await checkImageExists(newUrl);
+
+            if (isAvailable) {
+                toggleHoodieColor(card, newColor);
             }
         }
     });
 
     if (dotBlack) dotBlack.onclick = (e) => { e.stopPropagation(); toggleHoodieColor(card, 'black'); };
-    if (dotWhite) dotWhite.onclick = (e) => { e.stopPropagation(); toggleHoodieColor(card, 'white'); };
+    if (dotWhite) {
+        dotWhite.onclick = (e) => {
+            e.stopPropagation();
+            toggleHoodieColor(card, 'white');
+        };
+    }
 
     imageContainer.addEventListener('click', (e) => {
         const imgElement = card.querySelector('.product-image');
@@ -735,6 +739,8 @@ function renderProducts(filter) {
             </div>`;
         } else if (product.category === 'هودي') {
             const initialImageUrl = product.blackImageUrl;
+            
+            const isWhiteAvailable = product.whiteImageUrl && !product.whiteImageUrl.endsWith('/.webp');
 
             cardHTML = `
             <div class="product-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl flex flex-col"
@@ -752,9 +758,14 @@ function renderProducts(filter) {
                     </div>
                 </div>
 
-                <div class="flex justify-center gap-3 py-2">
-                    <span class="color-dot dot-black active bg-black" title="اللون الأسود"></span>
-                    <span class="color-dot dot-white bg-white" title="اللون الأبيض"></span>
+                <div class="flex justify-center flex-col items-center gap-1 py-2">
+                    <div class="flex gap-3">
+                        <span class="color-dot dot-black active bg-black" title="اللون الأسود"></span>
+                        <span class="color-dot dot-white bg-white" title="اللون الأبيض"></span>
+                    </div>
+                    <p class="white-availability-message text-xs text-gray-600 dark:text-gray-400 mt-1" style="display: ${isWhiteAvailable ? 'block' : 'none'};">
+                        متاح اللون الأبيض، اضغط للعرض
+                    </p>
                 </div>
 
                 <div class="p-5 text-center flex-grow flex flex-col">
