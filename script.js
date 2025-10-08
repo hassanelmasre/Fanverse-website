@@ -570,7 +570,8 @@ function toggleHoodieColor(card, color) {
             checkImageExists(otherUrl).then(isOtherAvailable => {
                 if (colorMessage) {
                     if (isOtherAvailable) {
-                        colorMessage.textContent = `متاح اللون ال${otherColorName}، اضغط للعرض`;
+const message = isMobileDevice() ? `متاح اللون ال${otherColorName}، اسحب للعرض` : `متاح اللون ال${otherColorName}، اضغط للعرض`;
+colorMessage.textContent = message;
                         colorMessage.style.display = 'block';
                     } else {
                         colorMessage.style.display = 'none';
