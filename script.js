@@ -1,3 +1,8 @@
+// Function to check if the device is a mobile or touch-enabled
+const isMobileDevice = () => {
+    return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
+};
+
 // Function to generate a placeholder image URL
 const generatePlaceholder = (text, color = 'black', width = 600, height = 600) => {
     const bgColor = color === 'white' ? 'FFFFFF' : '000000';
@@ -396,7 +401,7 @@ function initializeHoodieCard(card) {
             setActiveColor('black');
             if (colorMessage) {
                 if (isWhiteAvailable) {
-                    colorMessage.textContent = "متاح اللون الأبيض، اضغط للعرض";
+colorMessage.textContent = isMobileDevice() ? "متاح اللون الأبيض، اسحب للعرض" : "متاح اللون الأبيض، اضغط للعرض";
                     colorMessage.style.display = 'block';
                 } else {
                     colorMessage.style.display = 'none';
@@ -407,7 +412,7 @@ function initializeHoodieCard(card) {
             setActiveColor('white');
             if (colorMessage) {
                 if (isBlackAvailable) {
-                    colorMessage.textContent = "متاح اللون الأسود، اضغط للعرض";
+colorMessage.textContent = isMobileDevice() ? "متاح اللون الأسود، اسحب للعرض" : "متاح اللون الأسود، اضغط للعرض";
                     colorMessage.style.display = 'block';
                 } else {
                     colorMessage.style.display = 'none';
