@@ -20,7 +20,7 @@ const products = [
     {
         name: 'هودي space 2', category: 'هودي', price: '650 L.E', isTwoColor: true,
         blackImageUrl: 'IMGES/BLACK/13.webp',
-        whiteImageUrl: 'IMGES/WHITE/.webp',
+        whiteImageUrl: 'IMGES/WHITE/13.webp', // تم تصحيح هذا المسار
     },
     {
         name: 'هودي RABBIT', category: 'هودي', price: '650 L.E', isTwoColor: true,
@@ -95,7 +95,7 @@ const products = [
     { name: 'هودي تصميم رقم 17', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/17.webp', whiteImageUrl: 'IMGES/WHITE/17.webp' },
     { name: 'هودي تصميم رقم 18', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/18.webp', whiteImageUrl: 'IMGES/WHITE/18.webp' },
     { name: 'هودي تصميم رقم 19', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/19.webp', whiteImageUrl: 'IMGES/WHITE/19.webp' },
-    { name: 'هودي Green Zoro  20', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/20.webp', whiteImageUrl: 'IMGES/WHITE/20.webp' },
+    { name: 'هودي Green Zoro  20', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/20.webp', whiteImageUrl: 'IMGES/WHITE/20.webp' },
     { name: 'هودي تصميم رقم 21', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/21.webp', whiteImageUrl: 'IMGES/WHITE/21.webp' },
     { name: 'هودي تصميم رقم 22', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/22.webp', whiteImageUrl: 'IMGES/WHITE/22.webp' },
     { name: 'هودي تصميم رقم 23', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/23.webp', whiteImageUrl: 'IMGES/WHITE/23.webp' },
@@ -115,7 +115,7 @@ const products = [
     { name: 'هودي تصميم رقم 37', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/37.webp', whiteImageUrl: 'IMGES/WHITE/37.webp' },
     { name: 'هودي تصميم رقم 38', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/38.webp', whiteImageUrl: 'IMGES/WHITE/38.webp' },
     { name: 'هودي تصميم رقم 39', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/39.webp', whiteImageUrl: 'IMGES/WHITE/39.webp' },
-  
+    
     { name: 'هودي تصميم رقم 41', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/41.webp', whiteImageUrl: 'IMGES/WHITE/41.webp' },
     { name: 'هودي تصميم رقم 42', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/42.webp', whiteImageUrl: 'IMGES/WHITE/42.webp' },
     { name: 'هودي تصميم رقم 43', category: 'هودي', price: '650 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/43.webp', whiteImageUrl: 'IMGES/WHITE/43.webp' },
@@ -386,6 +386,7 @@ function initializeHoodieCard(card) {
         if (colorMessage) colorMessage.style.display = 'none';
     };
 
+    // هذا هو الجزء الذي تم تعديله
     const setInitialImage = async () => {
         const isBlackAvailable = await checkImageExists(blackUrl);
         const isWhiteAvailable = await checkImageExists(whiteUrl);
@@ -393,20 +394,24 @@ function initializeHoodieCard(card) {
         if (isBlackAvailable) {
             imgElement.src = blackUrl;
             setActiveColor('black');
-            if (isWhiteAvailable) {
-                if (colorMessage) {
+            if (colorMessage) {
+                if (isWhiteAvailable) {
                     colorMessage.textContent = "متاح اللون الأبيض، اضغط للعرض";
                     colorMessage.style.display = 'block';
+                } else {
+                    colorMessage.style.display = 'none';
                 }
-            } else {
-                if (colorMessage) colorMessage.style.display = 'none';
             }
         } else if (isWhiteAvailable) {
             imgElement.src = whiteUrl;
             setActiveColor('white');
             if (colorMessage) {
-                 colorMessage.textContent = "متاح اللون الأسود، اضغط للعرض";
-                 colorMessage.style.display = 'block'; // يجب إظهار الرسالة لأن اللون الأسود غير متاح
+                if (isBlackAvailable) {
+                    colorMessage.textContent = "متاح اللون الأسود، اضغط للعرض";
+                    colorMessage.style.display = 'block';
+                } else {
+                    colorMessage.style.display = 'none';
+                }
             }
         } else {
             showUnavailable();
@@ -527,7 +532,7 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// هذا هو الجزء الذي تم تبسيطه
+// هذا هو الجزء الذي تم تعديله
 function toggleHoodieColor(card, color) {
     const imgElement = card.querySelector('.product-image');
     const overlay = card.querySelector('.unavailable-overlay');
@@ -538,47 +543,35 @@ function toggleHoodieColor(card, color) {
     const blackUrl = card.dataset.blackUrl;
     const whiteUrl = card.dataset.whiteUrl;
 
-    let newSrc;
-    let otherSrc;
+    const newSrc = color === 'black' ? blackUrl : whiteUrl;
+    const otherUrl = color === 'black' ? whiteUrl : blackUrl;
 
-    if (color === 'black') {
-        newSrc = blackUrl;
-        otherSrc = whiteUrl;
-    } else {
-        newSrc = whiteUrl;
-        otherSrc = blackUrl;
-    }
-
+    // فحص ما إذا كان اللون الجديد متاحاً
     checkImageExists(newSrc).then(isAvailable => {
         if (isAvailable) {
             imgElement.src = newSrc;
             imgElement.style.display = 'block';
             overlay.classList.add('hidden');
 
+            // إزالة وتفعيل النقطة الصحيحة
             if (dotBlack) dotBlack.classList.remove('active');
             if (dotWhite) dotWhite.classList.remove('active');
+            if (color === 'black' && dotBlack) dotBlack.classList.add('active');
+            if (color === 'white' && dotWhite) dotWhite.classList.add('active');
+            card.dataset.currentColor = color;
 
-            if (color === 'black') {
-                if (dotBlack) dotBlack.classList.add('active');
-                card.dataset.currentColor = 'black';
-
+            // تحديث رسالة توافر اللون الآخر
+            const otherColorName = color === 'black' ? 'أبيض' : 'أسود';
+            checkImageExists(otherUrl).then(isOtherAvailable => {
                 if (colorMessage) {
-                    checkImageExists(otherSrc).then(isOtherAvailable => {
-                        colorMessage.textContent = "متاح اللون الأبيض، اضغط للعرض";
-                        colorMessage.style.display = isOtherAvailable ? 'block' : 'none';
-                    });
+                    if (isOtherAvailable) {
+                        colorMessage.textContent = `متاح اللون ال${otherColorName}، اضغط للعرض`;
+                        colorMessage.style.display = 'block';
+                    } else {
+                        colorMessage.style.display = 'none';
+                    }
                 }
-            } else {
-                if (dotWhite) dotWhite.classList.add('active');
-                card.dataset.currentColor = 'white';
-
-                if (colorMessage) {
-                    checkImageExists(otherSrc).then(isOtherAvailable => {
-                        colorMessage.textContent = "متاح اللون الأسود، اضغط للعرض";
-                        colorMessage.style.display = isOtherAvailable ? 'block' : 'none';
-                    });
-                }
-            }
+            });
         }
     });
 }
