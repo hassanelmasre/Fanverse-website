@@ -180,6 +180,20 @@ const products = [
         blackImageUrl: 'IMGES/GIRLS/BLACK/.webp',
         whiteImageUrl: 'IMGES/GIRLS/WHITE/6.webp'
     },
+ {
+        name: 'هودي (GIRL) تصميم 10', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS',
+        blackImageUrl: 'IMGES/GIRLS/BLACK/.webp',
+        whiteImageUrl: 'IMGES/GIRLS/WHITE/7.webp'
+    },
+ {
+        name: 'هودي (GIRL) تصميم 11ES/GIRLS/BLACK/.webp',
+        whiteImageUrl: 'IMGES/GIRLS/WHITE/8.webp'
+    },
+ {
+        name: 'هودي (GIRL) تصميم 12', category: 'هودي', price: '650 L.E', isTwoColor: true, gender: 'GIRLS',
+        blackImageUrl: 'IMGES/GIRLS/BLACK/.webp',
+        whiteImageUrl: 'IMGES/GIRLS/WHITE/9.webp'
+    },
 
 
     { name: 'مج JOKER', category: 'مج', imageUrl: 'IMGES/M (1).webp', price: '130 L.E' },
