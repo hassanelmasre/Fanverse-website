@@ -135,6 +135,8 @@ const products = [
     { name: 'هودي تصميم رقم 62', category: 'هودي', price: '700 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/53.webp', whiteImageUrl: 'IMGES/WHITE/53.webp' },
     { name: 'هودي تصميم رقم 63', category: 'هودي', price: '700 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/54.webp', whiteImageUrl: 'IMGES/WHITE/54.webp' },
     { name: 'هودي تصميم رقم 64', category: 'هودي', price: '700 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/55.webp', whiteImageUrl: 'IMGES/WHITE/55.webp' },
+    { name: 'هودي تصميم رقم 65', category: 'هودي', price: '700 L.E', isTwoColor: true, blackImageUrl: 'IMGES/BLACK/45.webp', whiteImageUrl: 'IMGES/WHITE/.webp' },
+
     {
         name: 'هودي (GIRL) تصميم 1', category: 'هودي', price: '700 L.E', isTwoColor: true, gender: 'GIRLS',
         blackImageUrl: 'IMGES/GIRLS/BLACK/1.webp',
