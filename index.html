@@ -25,7 +25,44 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- 
+      تمت إضافة هذا الـ Style الخاص بالبابلز الترحيبية
+    -->
+    <style>
+        #welcome-bubbles-container {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 12px;
+            pointer-events: none; /* علشان متمنعش الكليك على حاجة تحتها */
+        }
+        .welcome-bubble {
+            background-color: #DC2626; /* لون أحمر المتجر */
+            color: white;
+            padding: 10px 18px;
+            border-radius: 20px; /* شكل البابل */
+            font-family: 'Cairo', sans-serif;
+            font-weight: 600;
+            font-size: 1.05rem; /* تم تكبير الخط بناءً على طلبك */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0; /* بتبدأ مخفية */
+            transform: translateY(10px);
+            /* الأنيميشن: 5 ثواني (تظهر، تثبت، تختفي) */
+            animation: fadeInOut 5s ease-in-out forwards;
+        }
+        @keyframes fadeInOut {
+            0%   { opacity: 0; transform: translateY(10px) scale(0.9); }
+            20%  { opacity: 1; transform: translateY(0) scale(1); } /* ظهور */
+            80%  { opacity: 1; transform: translateY(0) scale(1); } /* ثبات */
+            100% { opacity: 0; transform: translateY(-10px) scale(0.9); } /* اختفاء */
+        }
+    </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
 
@@ -108,5 +145,18 @@
 
     <script src="script.js"></script>
 
+    <!-- 
+      تمت إضافة هذا الـ HTML الخاص بالبابلز الترحيبية (مع التعديلات)
+    -->
+    <div id="welcome-bubbles-container">
+        <!-- البابل الأولى (تظهر بعد 0.5 ثانية) -->
+        <div class="welcome-bubble" style="animation-delay: 0.5s;">أهلاً بك في FanVerse!</div>
+        <!-- البابل الثانية (تظهر بعد 1.5 ثانية) -->
+        <div class="welcome-bubble" style="animation-delay: 1.5s;">لو انت فان يبقي FANVERSE هو المكان</div>
+        <!-- البابل الثالثة (تظهر بعد 2.5 ثانية) -->
+        <div class="welcome-bubble" style="animation-delay: 2.5s;">في انتظار طلبك لتنفيذه</div>
+    </div>
+
 </body>
 </html>
+
